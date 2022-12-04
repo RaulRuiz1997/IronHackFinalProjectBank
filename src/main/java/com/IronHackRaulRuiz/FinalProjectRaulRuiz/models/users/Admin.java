@@ -23,14 +23,10 @@ public class Admin extends User {
         super(name);
     }
 
-    // todo: mirar esto porque se guarda bien pero el metodo tendria que recibir la Address, un AccountHolder y los atributos para guardar un SavingAccount
-    public Savings createSavingAccount() {
+    // todo: Mirar esto porque le tengo que pasar por argumentos todos los parametros del constructor como hice pasandole el accountHolder, no?
+    public Savings createSavingAccount(User accountHolder) {
 
-        Address address = new Address("C/ Falsa", 123, "BCN", 8100);
-
-        User accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
-
-        Savings savingAccount = new Savings(500.0, accountHolderRaul, null, 0.0, 200.0, "secretKey", LocalDate.of(2015, 5, 5),
+        Savings savingAccount = new Savings(500.0, accountHolder, null, 0.0, 200.0, "secretKey", LocalDate.of(2015, 5, 5),
                 StatusAccount.ACTIVE, 0.010);
 
         return savingAccount;

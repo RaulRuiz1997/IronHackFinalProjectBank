@@ -1,13 +1,18 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz;
 
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Address;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +27,11 @@ public class SavingsRepositoryTest {
 
         Admin admin = new Admin("Admin");
 
-        Savings savingAccount = admin.createSavingAccount();
+        Address address = new Address("C/ Falsa", 123, "BCN", 8100);
+
+        User accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
+
+        Savings savingAccount = admin.createSavingAccount(accountHolderRaul);
 
         savingsRepository.save(savingAccount);
 
@@ -48,7 +57,11 @@ public class SavingsRepositoryTest {
 
         Admin admin = new Admin("Admin");
 
-        Savings savingAccount = admin.createSavingAccount();
+        Address address = new Address("C/ Falsa", 123, "BCN", 8100);
+
+        User accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
+
+        Savings savingAccount = admin.createSavingAccount(accountHolderRaul);
 
         savingsRepository.save(savingAccount);
 
