@@ -19,7 +19,14 @@ public class AccountHolder extends User {
     private LocalDate dateOfBirth;
     @Embedded
     private Address primaryAddress;
+
     //@Embedded
     //private Address mailingAddress;
+
+    public AccountHolder(String name, LocalDate dateOfBirth, Address primaryAddress) {
+        super(name);
+        this.dateOfBirth = dateOfBirth;
+        this.primaryAddress = primaryAddress;
+    }
 
 }

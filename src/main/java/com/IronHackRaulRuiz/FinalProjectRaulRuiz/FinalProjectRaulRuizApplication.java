@@ -1,5 +1,13 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz;
 
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Checking;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.CreditCard;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,12 +15,35 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class FinalProjectRaulRuizApplication implements CommandLineRunner {
 
+	@Autowired
+	SavingsRepository savingsRepository;
+
+	@Autowired
+	CreditCardRepository creditCardRepository;
+
+	@Autowired
+	CheckingRepository checkingRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(FinalProjectRaulRuizApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
+
+		Admin admin = new Admin("Admin");
+
+		Savings savingAccount = admin.createSavingAccount();
+
+		CreditCard creditCardAccount = admin.createCreditCardAccount();
+
+		Checking checkingAccount = admin.createCheckingAccount();
+
+		savingsRepository.save(savingAccount);
+
+		creditCardRepository.save(creditCardAccount);
+
+		checkingRepository.save(checkingAccount);
 
 	}
 

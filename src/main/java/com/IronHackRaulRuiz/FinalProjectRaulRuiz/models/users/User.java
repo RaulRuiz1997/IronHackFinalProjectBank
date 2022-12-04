@@ -18,7 +18,7 @@ public abstract class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany(mappedBy = "primaryOwner")
+    @OneToMany(mappedBy = "primaryOwner", cascade=CascadeType.ALL)
     List<Account> accountList;
 
     public User(String name) {

@@ -19,9 +19,9 @@ public abstract class Account {
     private Long id;
 
     private Double balance;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL) // todo: si no pongo esto me peta, no entiendo
     private User primaryOwner;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL) // todo: si no pongo esto me peta, no entiendo
     private User secondaryOwner;
     // todo: Tiene que ser opcional?
     // private Optional<User> secondaryOwner;
@@ -34,5 +34,10 @@ public abstract class Account {
         this.penaltyFee = penaltyFee;
     }
 
+    public void setPenaltyFee(Double penaltyFee) {
 
+        if (penaltyFee < 0) this.penaltyFee = 0.0;
+        else this.penaltyFee = penaltyFee;
+
+    }
 }
