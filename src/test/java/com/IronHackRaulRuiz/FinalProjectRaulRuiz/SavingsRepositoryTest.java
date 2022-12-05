@@ -138,11 +138,30 @@ public class SavingsRepositoryTest {
 
     }
 
-    // todo: (testear setear el balance a menos de 100 y mas de 1000)
     // El balance mínimo configurado es de 100
     @Test
     void shouldSetBalanceAtMinimum() {
 
+        Admin admin = new Admin("Admin");
+
+        Address address = new Address("C/ Falsa", 123, "BCN", 8100);
+
+        AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
+
+        Savings savingAccount = admin.createSavingAccount(500.0, accountHolderRaul, null, StatusAccount.ACTIVE, 200.0, "secretKey", 0.1);
+
+        // Seteamos el balance mínimo por debajo del mínimo permitido, entonces lo pondrá al mínimo en vez del que le intentan meter
+        savingAccount.setMinimumBalance(90.0);
+
+        accountHolderRaul = accountHolderRepository.save(accountHolderRaul);
+
+        savingsRepository.save(savingAccount);
+
+        if (savingsRepository.findByPrimaryOwnerId(accountHolderRaul.getId()).isPresent()) {
+
+            assertEquals(100, savingsRepository.findByPrimaryOwnerId(accountHolderRaul.getId()).get().getMinimumBalance());
+
+        }
 
     }
 
@@ -150,6 +169,26 @@ public class SavingsRepositoryTest {
     @Test
     void shouldSetBalanceAtMax() {
 
+        Admin admin = new Admin("Admin");
+
+        Address address = new Address("C/ Falsa", 123, "BCN", 8100);
+
+        AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
+
+        Savings savingAccount = admin.createSavingAccount(500.0, accountHolderRaul, null, StatusAccount.ACTIVE, 200.0, "secretKey", 0.1);
+
+        // Seteamos el balance máximo por encima del máximo permitido, entonces lo pondrá al máximo en vez del que le intentan meter
+        savingAccount.setMinimumBalance(1100.0);
+
+        accountHolderRaul = accountHolderRepository.save(accountHolderRaul);
+
+        savingsRepository.save(savingAccount);
+
+        if (savingsRepository.findByPrimaryOwnerId(accountHolderRaul.getId()).isPresent()) {
+
+            assertEquals(1000, savingsRepository.findByPrimaryOwnerId(accountHolderRaul.getId()).get().getMinimumBalance());
+
+        }
 
     }
 
