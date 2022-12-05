@@ -1,11 +1,11 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Account;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +22,12 @@ public class AccountHolder extends User {
 
     //@Embedded
     //private Address mailingAddress;
+
+    @OneToMany(mappedBy = "primaryOwner", cascade= CascadeType.ALL)
+    private List<Account> accountListPrimaryOwner;
+
+    @OneToMany(mappedBy = "secondaryOwner", cascade= CascadeType.ALL)
+    private List<Account> accountListSecondaryOwner;
 
     public AccountHolder(String name, LocalDate dateOfBirth, Address primaryAddress) {
         super(name);

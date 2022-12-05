@@ -3,6 +3,7 @@ package com.IronHackRaulRuiz.FinalProjectRaulRuiz;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Checking;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.CreditCard;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Address;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
@@ -20,45 +21,43 @@ import java.time.LocalDate;
 @SpringBootApplication
 public class FinalProjectRaulRuizApplication implements CommandLineRunner {
 
-	@Autowired
-	SavingsRepository savingsRepository;
+    @Autowired
+    SavingsRepository savingsRepository;
 
-	@Autowired
-	CreditCardRepository creditCardRepository;
+    @Autowired
+    CreditCardRepository creditCardRepository;
 
-	@Autowired
-	CheckingRepository checkingRepository;
+    @Autowired
+    CheckingRepository checkingRepository;
 
-	public static void main(String[] args) {
-		SpringApplication.run(FinalProjectRaulRuizApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(FinalProjectRaulRuizApplication.class, args);
+    }
 
-	@Override
-	public void run(String... args) throws Exception {
+    @Override
+    public void run(String... args) throws Exception {
 
-		Admin admin = new Admin("Admin");
+        /*
+        Admin admin = new Admin("Admin");
 
+        Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
+        User accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
 
-		Address address = new Address("C/ Falsa", 123, "BCN", 8100);
+        Savings savingAccount = admin.createSavingAccount(500.0, accountHolderRaul, null, 0.0, 200.0, "secretKey", LocalDate.of(2015, 5, 5), StatusAccount.ACTIVE, 0.010);
 
-		User accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
+        CreditCard creditCardAccount = admin.createCreditCardAccount(accountHolderRaul);
 
-		Savings savingAccount = admin.createSavingAccount(accountHolderRaul);
+        Checking checkingAccount = admin.createCheckingAccount(accountHolderRaul);
 
+        savingsRepository.save(savingAccount);
 
+        creditCardRepository.save(creditCardAccount);
 
+        checkingRepository.save(checkingAccount);
 
-		CreditCard creditCardAccount = admin.createCreditCardAccount();
+        */
 
-		Checking checkingAccount = admin.createCheckingAccount();
-
-		savingsRepository.save(savingAccount);
-
-		creditCardRepository.save(creditCardAccount);
-
-		checkingRepository.save(checkingAccount);
-
-	}
+    }
 
 }

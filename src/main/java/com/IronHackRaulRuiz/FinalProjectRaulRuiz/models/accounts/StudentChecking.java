@@ -1,6 +1,7 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts;
 
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -19,8 +20,10 @@ import java.time.LocalDate;
 public class StudentChecking extends Account {
 
     private String secretKey;
-    private LocalDate creationDate;
-    @Enumerated(EnumType.STRING)
-    private StatusAccount status;
+
+    public StudentChecking(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, String secretKey) {
+        super(balance, primaryOwner, secondaryOwner, status);
+        this.secretKey = secretKey;
+    }
 
 }

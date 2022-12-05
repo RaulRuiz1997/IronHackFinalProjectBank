@@ -19,41 +19,37 @@ import java.time.LocalDate;
 @PrimaryKeyJoinColumn(name = "id")
 public class Admin extends User {
 
+    // todo: OJO, ESTOS METODOS SON LOGICA DEL SERVICE
+
     public Admin(String name) {
         super(name);
     }
 
-    // todo: Mirar esto porque le tengo que pasar por argumentos todos los parametros del constructor como hice pasandole el accountHolder, no?
-    public Savings createSavingAccount(User accountHolder) {
+    // todo: Mirar esto porque le tengo que pasar por argumentos todos los parámetros del constructor como hice pasándole el accountHolder, no?
+    public Savings createSavingAccount(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Double minimumBalance, String secretKey,
+                                       Double interestRate) {
 
-        Savings savingAccount = new Savings(500.0, accountHolder, null, 0.0, 200.0, "secretKey", LocalDate.of(2015, 5, 5),
-                StatusAccount.ACTIVE, 0.010);
+        Savings savingAccount = new Savings(balance, primaryOwner, secondaryOwner, status, minimumBalance, secretKey, interestRate);
+
+        // todo: devolver el saving account de la BBDD, esta logica va en el service, no aqui
 
         return savingAccount;
 
     }
 
-    public CreditCard createCreditCardAccount() {
+    public CreditCard createCreditCardAccount(AccountHolder primaryOwner) {
 
-        Address address = new Address("C/ Falsa", 123, "BCN", 8100);
+        CreditCard creditCardAccount = new CreditCard(500.0, primaryOwner, null, StatusAccount.ACTIVE, 1000, 0.1);
 
-        User accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
-
-        CreditCard creditCard = new CreditCard(500.0, accountHolderRaul, null, 0.0, 100, 0.2);
-
-        return creditCard;
+        return creditCardAccount;
 
     }
 
-    public Checking createCheckingAccount() {
+    public Checking createCheckingAccount(AccountHolder primaryOwner) {
 
-        Address address = new Address("C/ Falsa", 123, "BCN", 8100);
+        Checking checkingAccount = new Checking(500.0, primaryOwner, null, StatusAccount.ACTIVE, 2, 0.2, "Secret Key");
 
-        User accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
-
-        Checking checking = new Checking(500.0, accountHolderRaul, null, 0.0, 100, 0.2, "Secret Key", LocalDate.of(2000, 5, 16), StatusAccount.ACTIVE);
-
-        return checking;
+        return checkingAccount;
 
     }
 

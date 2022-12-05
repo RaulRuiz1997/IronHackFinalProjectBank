@@ -1,9 +1,13 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts;
 
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,8 +26,8 @@ public class CreditCard extends Account {
     private Integer creditLimit = 100;
     private Double interestRate = 0.2;
 
-    public CreditCard(Double balance, User primaryOwner, User secondaryOwner, Double penaltyFee, Integer creditLimit, Double interestRate) {
-        super(balance, primaryOwner, secondaryOwner, penaltyFee);
+    public CreditCard(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer creditLimit, Double interestRate) {
+        super(balance, primaryOwner, secondaryOwner, status);
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;
     }
