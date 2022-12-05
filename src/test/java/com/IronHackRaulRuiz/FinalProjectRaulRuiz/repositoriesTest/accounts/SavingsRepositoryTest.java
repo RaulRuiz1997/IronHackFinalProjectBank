@@ -96,7 +96,7 @@ public class SavingsRepositoryTest {
 
     // Test para verificar que no se pueda meter el valor (rate) menor que el mínimo establecido (0.0025)
     @Test
-    void shouldSetRateAtMinimum() { // todo: mirar por ID y no por nombre pk se puede repetir
+    void shouldSetRateAtMinimum() {
 
         Admin admin = new Admin("Admin");
 

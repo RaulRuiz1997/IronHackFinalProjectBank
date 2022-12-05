@@ -2,6 +2,7 @@ package com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users;
 
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Account;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -22,9 +23,11 @@ public class AccountHolder extends User {
     //@Embedded
     //private Address mailingAddress;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "primaryOwner", cascade= CascadeType.ALL)
     private List<Account> accountListPrimaryOwner;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "secondaryOwner", cascade= CascadeType.ALL)
     private List<Account> accountListSecondaryOwner;
 
