@@ -1,13 +1,11 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositoriesTest.accounts;
 
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Checking;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.AccountHolderRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,6 +65,8 @@ public class CheckingRepositoryTest {
             assertEquals("Raul", checkingAccount.getPrimaryOwner().getName());
 
         }
+
+        // todo: debería haber un else, no? ya que si no esta presente en el if no entra y te dará que ha pasado el test
 
     }
 

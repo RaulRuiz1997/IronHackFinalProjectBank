@@ -32,9 +32,9 @@ public class Admin extends User {
 
     }
 
-    public CreditCard createCreditCardAccount(AccountHolder primaryOwner) {
+    public CreditCard createCreditCardAccount(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer creditLimit, Double interestRate) {
 
-        CreditCard creditCardAccount = new CreditCard(500.0, primaryOwner, null, StatusAccount.ACTIVE, 1000, 0.1);
+        CreditCard creditCardAccount = new CreditCard(balance, primaryOwner, secondaryOwner, status, creditLimit, interestRate);
 
         return creditCardAccount;
 

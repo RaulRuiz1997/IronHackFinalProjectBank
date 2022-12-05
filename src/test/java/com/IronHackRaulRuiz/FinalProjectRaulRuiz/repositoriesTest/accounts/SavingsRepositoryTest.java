@@ -72,7 +72,7 @@ public class SavingsRepositoryTest {
 
     // Test para verificar el size de la lista
     @Test
-    void ListSizeShouldBe7() {
+    void ListSizeShouldBe2() {
 
         Admin admin = new Admin("Admin");
 
@@ -86,9 +86,9 @@ public class SavingsRepositoryTest {
 
         savingsRepository.save(savingAccount);
 
-        if (savingsRepository.findById(1L).isPresent()) {
+        if (savingsRepository.findById(accountHolderRaul.getId()).isPresent()) {
 
-            assertEquals(7, savingsRepository.findAll().size());
+            assertEquals(2, savingsRepository.findAll().size());
 
         }
 

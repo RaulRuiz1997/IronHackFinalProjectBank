@@ -2,16 +2,9 @@ package com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts;
 
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
-import java.time.LocalDate;
-
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id")

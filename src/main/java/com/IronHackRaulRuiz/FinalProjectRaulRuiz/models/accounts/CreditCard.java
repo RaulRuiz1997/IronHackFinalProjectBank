@@ -28,8 +28,8 @@ public class CreditCard extends Account {
 
     public CreditCard(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer creditLimit, Double interestRate) {
         super(balance, primaryOwner, secondaryOwner, status);
-        this.creditLimit = creditLimit;
-        this.interestRate = interestRate;
+        setCreditLimit(creditLimit);
+        setInterestRate(interestRate);
     }
 
     public Integer getMIN_CREDIT_LIMIT() {
