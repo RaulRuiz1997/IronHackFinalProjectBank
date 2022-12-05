@@ -1,25 +1,20 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users;
 
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Account;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Checking;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.CreditCard;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
-import lombok.*;
 
-import java.time.LocalDate;
-
-@AllArgsConstructor
-@Getter
-@Setter
-@ToString
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 public class Admin extends User {
 
     // todo: OJO, ESTOS METODOS SON LOGICA DEL SERVICE
+
+    public Admin() {
+    }
 
     public Admin(String name) {
         super(name);
@@ -45,7 +40,7 @@ public class Admin extends User {
 
     }
 
-    public Checking createCheckingAccount(AccountHolder primaryOwner) {
+    public Checking createCheckingAccount(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer monthlyMaintenanceFee, Double minimumBalance, String secretKey) {
 
         Checking checkingAccount = new Checking(500.0, primaryOwner, null, StatusAccount.ACTIVE, 2, 0.2, "Secret Key");
 

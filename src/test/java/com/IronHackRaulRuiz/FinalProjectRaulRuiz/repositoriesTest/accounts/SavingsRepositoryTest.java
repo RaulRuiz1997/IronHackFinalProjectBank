@@ -1,11 +1,10 @@
-package com.IronHackRaulRuiz.FinalProjectRaulRuiz;
+package com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositoriesTest.accounts;
 
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Address;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.AccountHolderRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -29,6 +28,7 @@ public class SavingsRepositoryTest {
     @Autowired
     AccountHolderRepository accountHolderRepository;
 
+    // Test para crear y guardar un Saving Account en la BBDD
     @BeforeEach
     void setUp() {
 
@@ -46,6 +46,15 @@ public class SavingsRepositoryTest {
 
     }
 
+    // Test para limpiar toda la BBDD
+    @AfterEach
+    void clean() {
+
+        savingsRepository.deleteAll();
+
+    }
+
+    // Test para buscar por ID
     @Test
     void ShouldFindSavingAccountById() {
 
@@ -61,8 +70,9 @@ public class SavingsRepositoryTest {
 
     }
 
+    // Test para verificar el size de la lista
     @Test
-    void ListSizeShouldBe2() {
+    void ListSizeShouldBe7() {
 
         Admin admin = new Admin("Admin");
 
@@ -84,7 +94,7 @@ public class SavingsRepositoryTest {
 
     }
 
-    // El rate mínimo configurado es de 0.0025
+    // Test para verificar que no se pueda meter el valor (rate) menor que el mínimo establecido (0.0025)
     @Test
     void shouldSetRateAtMinimum() { // todo: mirar por ID y no por nombre pk se puede repetir
 
@@ -111,7 +121,7 @@ public class SavingsRepositoryTest {
 
     }
 
-    // El rate máximo configurado es de 0.5
+    // Test para verificar que no se pueda meter el valor (rate) mayor que el máximo establecido (0.5)
     @Test
     void shouldSetRateAtMax() {
 
@@ -138,7 +148,7 @@ public class SavingsRepositoryTest {
 
     }
 
-    // El balance mínimo configurado es de 100
+    // Test para verificar que no se pueda meter el valor (balance) menor que el mínimo establecido (100)
     @Test
     void shouldSetBalanceAtMinimum() {
 
@@ -165,7 +175,7 @@ public class SavingsRepositoryTest {
 
     }
 
-    // El balance máximo configurado es de 1000
+    // Test para verificar que no se pueda meter el valor (balance) mayor que el máximo establecido (1000)
     @Test
     void shouldSetBalanceAtMax() {
 
@@ -189,13 +199,6 @@ public class SavingsRepositoryTest {
             assertEquals(1000, savingsRepository.findByPrimaryOwnerId(accountHolderRaul.getId()).get().getMinimumBalance());
 
         }
-
-    }
-
-    @AfterEach
-    void clean() {
-
-        savingsRepository.deleteAll();
 
     }
 

@@ -1,9 +1,9 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts;
 
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.CreditCard;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CreditCardRepository extends JpaRepository<CreditCard, Long> {
+public interface AccountRepository extends JpaRepository<Account, Long> {
 }

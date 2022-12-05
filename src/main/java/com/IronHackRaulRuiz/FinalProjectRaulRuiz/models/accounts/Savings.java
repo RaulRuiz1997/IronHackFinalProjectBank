@@ -7,16 +7,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Transient;
 
 import java.time.LocalDate;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@ToString
+
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 public class Savings extends Account {
@@ -28,10 +25,16 @@ public class Savings extends Account {
     private static final Double MAXIMUM_BALANCE = 1000.0;
 
     private static final Double MINIMUM_BALANCE2 = 100.0;
+    @NotNull
 
     private Double minimumBalance = MINIMUM_BALANCE2;
+    @NotNull
     private String secretKey;
+    @NotNull
     private Double interestRate = MINIMUM_INTEREST_RATE;
+
+    public Savings() {
+    }
 
     public Savings(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Double minimumBalance, String secretKey, Double interestRate) {
         super(balance, primaryOwner, secondaryOwner, status);
@@ -56,6 +59,38 @@ public class Savings extends Account {
         else if (minimumBalance < MINIMUM_BALANCE2) this.minimumBalance = MINIMUM_BALANCE2;
         else this.minimumBalance = minimumBalance;
 
+    }
+
+    public Double getMinimumBalance() {
+        return minimumBalance;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public Double getInterestRate() {
+        return interestRate;
+    }
+
+    @Override
+    public String toString() {
+        return "Savings{" +
+                "id=" + getId() +
+                ", balance=" + getBalance() +
+                ", primaryOwner=" + getPrimaryOwner() +
+                ", secondaryOwner=" + getSecondaryOwner() +
+                ", PENALTY_FEE=" + getPENALTY_FEE() +
+                ", creationDate=" + getCreationDate() +
+                ", status=" + getStatus() +
+                ", minimumBalance=" + minimumBalance +
+                ", secretKey='" + secretKey + '\'' +
+                ", interestRate=" + interestRate +
+                '}';
     }
 
 }

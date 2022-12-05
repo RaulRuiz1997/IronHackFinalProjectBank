@@ -1,13 +1,5 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz;
 
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Checking;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.CreditCard;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Address;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
@@ -15,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.time.LocalDate;
 
 @SpringBootApplication
 public class FinalProjectRaulRuizApplication implements CommandLineRunner {

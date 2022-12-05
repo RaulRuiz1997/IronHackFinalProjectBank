@@ -1,15 +1,8 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users;
 
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Account;
 import jakarta.persistence.*;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
 
-import java.util.List;
-
-@NoArgsConstructor
-@Getter
-@Setter
-@ToString
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class User {
@@ -17,10 +10,36 @@ public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
     private String name;
+
+    public User() {
+    }
 
     public User(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+
     }
 
 }

@@ -7,28 +7,73 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@ToString
+
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 public class Checking extends Account {
 
-    private Integer montlyMaintenanceFee = 12;
+    @NotNull
+    private Integer monthlyMaintenanceFee = 12;
+    @NotNull
     private Double minimumBalance = 250.0;
+    @NotNull
     private String secretKey;
 
-    public Checking(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer montlyMaintenanceFee, Double minimumBalance, String secretKey) {
+    public Checking() {
+    }
+
+    public Checking(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer monthlyMaintenanceFee, Double minimumBalance, String secretKey) {
         super(balance, primaryOwner, secondaryOwner, status);
-        this.montlyMaintenanceFee = montlyMaintenanceFee;
+        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
         this.minimumBalance = minimumBalance;
         this.secretKey = secretKey;
+    }
+
+    public Integer getMonthlyMaintenanceFee() {
+        return monthlyMaintenanceFee;
+    }
+
+    public void setMonthlyMaintenanceFee(Integer monthlyMaintenanceFee) {
+        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
+    }
+
+    public Double getMinimumBalance() {
+        return minimumBalance;
+    }
+
+    public void setMinimumBalance(Double minimumBalance) {
+        this.minimumBalance = minimumBalance;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    @Override
+    public String toString() {
+
+        return "Checking{" +
+                "id=" + getId() +
+                ", balance=" + getBalance() +
+                ", primaryOwner=" + getPrimaryOwner() +
+                ", secondaryOwner=" + getSecondaryOwner() +
+                ", PENALTY_FEE=" + getPENALTY_FEE() +
+                ", creationDate=" + getCreationDate() +
+                ", status=" + getStatus() +
+                ", monthlyMaintenanceFee=" + monthlyMaintenanceFee +
+                ", minimumBalance=" + minimumBalance +
+                ", secretKey='" + secretKey + '\'' +
+                '}';
+
     }
 
 }
