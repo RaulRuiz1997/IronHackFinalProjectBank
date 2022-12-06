@@ -22,7 +22,9 @@ public class CreditCardController {
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.FOUND)
     public List<CreditCard> findAll() {
+
         return creditCardService.findAll();
+
     }
 
     // GET -> localhost:8080/credit-card/id/2
@@ -30,7 +32,9 @@ public class CreditCardController {
     @GetMapping("/id/{id}")
     @ResponseStatus(HttpStatus.FOUND)
     public CreditCard findByIdPathVariable(@PathVariable Long id) {
+
         return creditCardService.findById(id);
+
     }
 
     // GET -> localhost:8080/credit-card/id?id=2
@@ -38,7 +42,9 @@ public class CreditCardController {
     @GetMapping("/id")
     @ResponseStatus(HttpStatus.FOUND)
     public CreditCard findByIdRequestParam(@RequestParam Long id) {
+
         return creditCardService.findById(id);
+
     }
 
     // POST -> localhost:8080/credit-card/add
@@ -72,7 +78,9 @@ public class CreditCardController {
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public CreditCard createCreditCardAccount(@RequestBody @Valid CreditCard creditCard) {
+
         return creditCardService.createCreditCardAccount(creditCard);
+
     }
 
     // PUT -> localhost:8080/credit-card/update-put
@@ -107,7 +115,9 @@ public class CreditCardController {
     @PutMapping("/update-put")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public CreditCard updateCreditCardAccountPut(@RequestBody @Valid CreditCard creditCardAccount) {
+
         return creditCardService.updateCreditCardAccountPut(creditCardAccount);
+
     }
 
     // PATCH -> localhost:8080/credit-card/update-patch
@@ -142,7 +152,9 @@ public class CreditCardController {
     @PatchMapping("/update-patch")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public CreditCard updateCreditCardAccountPatch(@RequestBody @Valid CreditCard creditCardAccount) {
+
         return creditCardService.updateCreditCardAccountPatch(creditCardAccount);
+
     }
 
     // DELETE -> localhost:8080/credit-card/delete/2
@@ -150,7 +162,9 @@ public class CreditCardController {
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.FOUND)
     public void deleteCreditCardAccountById(@PathVariable Long id) {
+
         creditCardService.delete(id);
+
     }
 
 }

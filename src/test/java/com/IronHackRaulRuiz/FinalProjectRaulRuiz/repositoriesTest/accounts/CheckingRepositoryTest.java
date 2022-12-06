@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 public class CheckingRepositoryTest {
 
+    // todo: Los test se hacen asi? Jose te dijo que el método admin.createCheckingAccount() debería tener la lógica en el Service
+
     @Autowired
     CheckingRepository checkingRepository;
 
