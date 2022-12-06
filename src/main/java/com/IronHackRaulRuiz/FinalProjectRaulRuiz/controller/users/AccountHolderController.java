@@ -15,12 +15,16 @@ public class AccountHolderController {
     @Autowired
     AccountHolderService accountHolderService;
 
+    // GET -> localhost:8080/account-holder/all
+    // Método para encontrar todos los Account Holders
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public List<AccountHolder> findAll() {
         return accountHolderService.findAll();
     }
 
+    // POST -> localhost:8080/account-holder
+    // Método para añadir un Account Holders
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public AccountHolder createAccountHolder(@RequestBody AccountHolder accountHolder) {

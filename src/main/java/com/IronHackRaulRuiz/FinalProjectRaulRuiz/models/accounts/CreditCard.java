@@ -75,6 +75,11 @@ public class CreditCard extends Account {
     }
 
     @Override
+    public void setBalance(Double balance) {
+
+    }
+
+    @Override
     public String toString() {
 
         return "CreditCard{" +

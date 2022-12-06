@@ -19,7 +19,7 @@ public class SavingsController {
     // GET -> localhost:8080/savings/all
     // Método para encontrar todos los Savings Account
     @GetMapping("/all")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<Savings> findAll() {
         return savingsService.findAll();
     }
@@ -27,7 +27,7 @@ public class SavingsController {
     // GET -> localhost:8080/savings/id/1
     // Método para encontrar un Saving Account por ID con PathVariable
     @GetMapping("/id/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public Savings findByIdPathVariable(@PathVariable Long id) {
         return savingsService.findById(id);
     }
@@ -35,12 +35,12 @@ public class SavingsController {
     // GET -> localhost:8080/savings/id?id=1
     // Método para encontrar un Saving Account por ID con RequestParam
     @GetMapping("/id")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public Savings findByIdRequestParam(@RequestParam Long id) {
         return savingsService.findById(id);
     }
 
-    // POST ->
+    // POST -> localhost:8080/savings/add
     /*
     {
         "balance": 444444.24,
@@ -158,7 +158,7 @@ public class SavingsController {
     // DELETE -> localhost:8080/savings/delete/4
     // Método para eliminar un Saving Account mediante su ID
     @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public void deleteSavingAccount(@PathVariable Long id) {
         savingsService.deleteSavingAccountById(id);
     }

@@ -22,6 +22,7 @@ public class CheckingRepositoryTest {
 
     // todo: Los test se hacen asi? Jose te dijo que el método admin.createCheckingAccount() debería tener la lógica en el Service
 
+    // todo: si no hay metodos especificos en los repositorios, hacer testing de los CRUD (CREATE, READ, UPDATE Y DELETE)
     @Autowired
     CheckingRepository checkingRepository;
 
@@ -69,6 +70,26 @@ public class CheckingRepositoryTest {
         }
 
         // todo: debería haber un else, no? ya que si no esta presente en el if no entra y te dará que ha pasado el test
+
+    }
+
+    // Test para verificar el método setBalance()
+    @Test
+    void ShouldsetBalanceWithPenaltyFee() {
+
+        Checking checkingAccount;
+
+        if (checkingRepository.findById(1L).isPresent()) {
+
+            checkingAccount = checkingRepository.findById(1L).get();
+
+            checkingAccount.setBalance(240.0);
+
+            checkingRepository.save(checkingAccount);
+
+            assertEquals(200, checkingRepository.findById(checkingAccount.getId()).get().getBalance());
+
+        }
 
     }
 

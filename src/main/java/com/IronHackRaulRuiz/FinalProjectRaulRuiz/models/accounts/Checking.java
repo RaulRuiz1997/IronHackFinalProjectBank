@@ -25,10 +25,24 @@ public class Checking extends Account {
         this.secretKey = secretKey;
     }
 
+    // todo: Segun alex, esta lógica deberia estar en un nuevo metodo que se hace en las transferencias
+
+    // Si el balance es menos que el minimum balance, le aplicamos el penalty fee
+    @Override
+    public void setBalance(Double balance, Double MINIMUM_BALANCE) {
+
+        // 240 < 250 = 240 - 40 = balance 200
+        if (balance < MINIMUM_BALANCE) {
+            super.setBalance(balance - getPENALTY_FEE());
+        } else {
+            super.setBalance(balance);
+        }
+
+    }
+
     public Integer getMonthlyMaintenanceFee() {
         return MONTHLY_MAINTENANCE_FEE;
     }
-
 
     public Double getMinimumBalance() {
         return MINIMUM_BALANCE;

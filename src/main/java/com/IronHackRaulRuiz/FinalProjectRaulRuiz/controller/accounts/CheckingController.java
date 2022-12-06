@@ -14,13 +14,15 @@ import java.util.List;
 @RequestMapping("/checking")
 public class CheckingController {
 
+    // todo: los test de los controller tienen que ser con MockMvc
+
     @Autowired
     CheckingService checkingService;
 
     // GET -> localhost:8080/checking/all
     // Método para encontrar todos los Checking Account
     @GetMapping("/all")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<Checking> findAll() {
         return checkingService.findAll();
     }
@@ -28,7 +30,7 @@ public class CheckingController {
     // GET -> localhost:8080/checking/id/3
     // Método para encontrar un Checking Account por ID con PathVariable
     @GetMapping("/id/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public Checking findByIdPathVariable(@PathVariable Long id) {
         return checkingService.findById(id);
     }
@@ -36,12 +38,12 @@ public class CheckingController {
     // GET -> localhost:8080/checking/id?id=3
     // Método para encontrar un Checking Account por ID con RequestParam
     @GetMapping("/id")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public Checking findByIdRequestParam(@RequestParam Long id) {
         return checkingService.findById(id);
     }
 
-    // POST ->
+    // POST -> localhost:8080/checking/add
     /*
     {
         "balance": 500.0,
@@ -139,7 +141,7 @@ public class CheckingController {
     // DELETE -> localhost:8080/checking/delete/3
     // Método para eliminar un Checking Account mediante su ID
     @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public void deleteCheckingAccount(@PathVariable Long id) {
         checkingService.deleteCheckingAccountById(id);
     }

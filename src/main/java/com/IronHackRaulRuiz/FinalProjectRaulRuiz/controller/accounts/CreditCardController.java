@@ -20,7 +20,7 @@ public class CreditCardController {
     // GET -> localhost:8080/credit-card/all
     // Método para encontrar todos los Credit Card Accounts
     @GetMapping("/all")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public List<CreditCard> findAll() {
 
         return creditCardService.findAll();
@@ -30,7 +30,7 @@ public class CreditCardController {
     // GET -> localhost:8080/credit-card/id/2
     // Método para encontrar un Credit Card Account por ID con PathVariable
     @GetMapping("/id/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public CreditCard findByIdPathVariable(@PathVariable Long id) {
 
         return creditCardService.findById(id);
@@ -40,7 +40,7 @@ public class CreditCardController {
     // GET -> localhost:8080/credit-card/id?id=2
     // Método para encontrar un Credit Card Account por ID con RequestParam
     @GetMapping("/id")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public CreditCard findByIdRequestParam(@RequestParam Long id) {
 
         return creditCardService.findById(id);
@@ -160,7 +160,7 @@ public class CreditCardController {
     // DELETE -> localhost:8080/credit-card/delete/2
     // Método para eliminar un Credit Card Account mediante su ID
     @DeleteMapping("/delete/{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public void deleteCreditCardAccountById(@PathVariable Long id) {
 
         creditCardService.delete(id);

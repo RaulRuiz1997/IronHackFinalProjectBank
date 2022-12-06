@@ -32,15 +32,17 @@ public abstract class Account {
     @Enumerated(EnumType.STRING)
     private StatusAccount status;
 
+    private final Double MINIMUM_BALANCE = 250.0;
+
     public Account() {
     }
 
     public Account(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status) {
-        this.balance = balance;
-        this.primaryOwner = primaryOwner;
-        this.secondaryOwner = secondaryOwner;
+        setBalance(balance);
+        setPrimaryOwner(primaryOwner);
+        setSecondaryOwner(secondaryOwner);
         this.creationDate = LocalDate.now();
-        this.status = status;
+        setStatus(status);
     }
 
     public Long getId() {
@@ -52,6 +54,9 @@ public abstract class Account {
     }
 
     public void setBalance(Double balance) {
+        this.balance = balance;
+    }
+    public void setBalance(Double balance, Double MINIMUM_BALANCE) {
         this.balance = balance;
     }
 
@@ -77,6 +82,10 @@ public abstract class Account {
 
     public LocalDate getCreationDate() {
         return creationDate;
+    }
+
+    private void setCreationDate(LocalDate creationDate) {
+        this.creationDate = LocalDate.now();
     }
 
     public StatusAccount getStatus() {
