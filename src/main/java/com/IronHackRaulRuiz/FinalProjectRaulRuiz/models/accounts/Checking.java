@@ -11,36 +11,27 @@ import jakarta.validation.constraints.NotNull;
 public class Checking extends Account {
 
     @NotNull
-    private Integer monthlyMaintenanceFee = 12;
+    private final Integer MONTHLY_MAINTENANCE_FEE = 12;
     @NotNull
-    private Double minimumBalance = 250.0;
+    private final Double MINIMUM_BALANCE = 250.0;
     @NotNull
     private String secretKey;
 
     public Checking() {
     }
 
-    public Checking(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer monthlyMaintenanceFee, Double minimumBalance, String secretKey) {
+    public Checking(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, String secretKey) {
         super(balance, primaryOwner, secondaryOwner, status);
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-        this.minimumBalance = minimumBalance;
         this.secretKey = secretKey;
     }
 
     public Integer getMonthlyMaintenanceFee() {
-        return monthlyMaintenanceFee;
+        return MONTHLY_MAINTENANCE_FEE;
     }
 
-    public void setMonthlyMaintenanceFee(Integer monthlyMaintenanceFee) {
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
-    }
 
     public Double getMinimumBalance() {
-        return minimumBalance;
-    }
-
-    public void setMinimumBalance(Double minimumBalance) {
-        this.minimumBalance = minimumBalance;
+        return MINIMUM_BALANCE;
     }
 
     public String getSecretKey() {
@@ -62,8 +53,8 @@ public class Checking extends Account {
                 ", PENALTY_FEE=" + getPENALTY_FEE() +
                 ", creationDate=" + getCreationDate() +
                 ", status=" + getStatus() +
-                ", monthlyMaintenanceFee=" + monthlyMaintenanceFee +
-                ", minimumBalance=" + minimumBalance +
+                ", MONTHLY_MAINTENANCE_FEE=" + MONTHLY_MAINTENANCE_FEE +
+                ", MINIMUM_BALANCE=" + MINIMUM_BALANCE +
                 ", secretKey='" + secretKey + '\'' +
                 '}';
 

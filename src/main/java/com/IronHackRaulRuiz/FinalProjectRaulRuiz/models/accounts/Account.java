@@ -16,21 +16,19 @@ public abstract class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotNull(message = "El balance no puede ser NULL!")
     private Double balance;
-    // todo: @NotNull hacer una comprobación en el controller para que no le metan null porque simplemente con la anotacion NotNull
-    //  no sirve
-    @NotNull
+    @NotNull(message = "El primaryOwner no puede ser NULL!")
     @ManyToOne
     private AccountHolder primaryOwner;
     @Nullable
     @ManyToOne
     private AccountHolder secondaryOwner;
     private final Double PENALTY_FEE = 40.0;
-    @NotNull
+    @NotNull(message = "El creationDate no puede ser NULL!")
     private LocalDate creationDate;
 
-    @NotNull
+    @NotNull(message = "El status no puede ser NULL!")
     @Enumerated(EnumType.STRING)
     private StatusAccount status;
 

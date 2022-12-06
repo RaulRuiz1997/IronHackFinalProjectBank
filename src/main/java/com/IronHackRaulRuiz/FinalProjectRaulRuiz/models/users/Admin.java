@@ -42,7 +42,7 @@ public class Admin extends User {
 
     public Checking createCheckingAccount(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer monthlyMaintenanceFee, Double minimumBalance, String secretKey) {
 
-        Checking checkingAccount = new Checking(500.0, primaryOwner, null, StatusAccount.ACTIVE, 2, 0.2, "Secret Key");
+        Checking checkingAccount = new Checking(500.0, primaryOwner, null, StatusAccount.ACTIVE, "Secret Key");
 
         return checkingAccount;
 

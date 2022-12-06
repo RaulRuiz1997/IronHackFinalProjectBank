@@ -1,7 +1,9 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.controller.accounts;
 
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Account;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Checking;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.accounts.CheckingService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,23 +20,23 @@ public class CheckingController {
     // GET -> localhost:8080/checking/all
     // Método para encontrar todos los Checking Account
     @GetMapping("/all")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.FOUND)
     public List<Checking> findAll() {
         return checkingService.findAll();
     }
 
-    // GET -> localhost:8080/checking/id/4
-    // Método para encontrar un Checking Account por id con PathVariable
+    // GET -> localhost:8080/checking/id/3
+    // Método para encontrar un Checking Account por ID con PathVariable
     @GetMapping("/id/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.FOUND)
     public Checking findByIdPathVariable(@PathVariable Long id) {
         return checkingService.findById(id);
     }
 
-    // GET -> localhost:8080/checking/id?id=4
-    // Método para encontrar un Checking Account por id con RequestParam
+    // GET -> localhost:8080/checking/id?id=3
+    // Método para encontrar un Checking Account por ID con RequestParam
     @GetMapping("/id")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.FOUND)
     public Checking findByIdRequestParam(@RequestParam Long id) {
         return checkingService.findById(id);
     }
@@ -42,67 +44,104 @@ public class CheckingController {
     // POST ->
     /*
     {
-        "id": 4,
-        "balance": 333.0,
+        "balance": 500.0,
         "primaryOwner": {
-            "id": 1,
-            "name": "Raul",
-            "dateOfBirth": "1997-12-19",
+            "id": 3,
+            "name": "Phillip (C.A.)",
+            "dateOfBirth": "1982-02-14",
             "primaryAddress": {
-                "name": "C/ Falsa",
-                "numberHouse": 123,
-                "city": "BCN",
-                "zipCode": 8100
+                "name": "Grove Street",
+                "numberHouse": 24,
+                "city": "LOS SANTOS",
+                "zipCode": 11923
             }
         },
         "secondaryOwner": null,
-        "creationDate": "2022-12-05",
+        "creationDate": "2022-12-06",
         "status": "ACTIVE",
-        "monthlyMaintenanceFee": 2,
-        "minimumBalance": 0.2,
         "secretKey": "Secret Key",
+        "minimumBalance": 250.0,
+        "monthlyMaintenanceFee": 12,
         "penalty_FEE": 40.0
     }
     */
     // Método para añadir un Checking Account
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public Checking createCheckingAccount(@RequestBody Checking checkingAccount) {
+    public Account createCheckingAccount(@RequestBody @Valid Checking checkingAccount) {
         return checkingService.createCheckingAccount(checkingAccount);
     }
 
-    // PUT -> localhost:8080/checking/update
+    // PUT -> localhost:8080/checking/update-put
     /*
     {
         "id": 3,
-        "balance": 1250.0,
+        "balance": 500.0,
         "primaryOwner": {
-            "id": 1,
-            "name": "RAUL",
-            "dateOfBirth": "1997-12-19",
+            "id": 3,
+            "name": "Phillip (C.A.)",
+            "dateOfBirth": "1982-02-14",
             "primaryAddress": {
-                "name": "C/ FALSISIMA",
-                "numberHouse": 456,
-                "city": "BCN",
-                "zipCode": 8100
+                "name": "Grove Street",
+                "numberHouse": 24,
+                "city": "LOS SANTOS",
+                "zipCode": 11923
             }
         },
         "secondaryOwner": null,
-        "creationDate": "2022-12-05",
+        "creationDate": "2022-12-06",
         "status": "ACTIVE",
-        "monthlyMaintenanceFee": 6,
-        "minimumBalance": 0.04,
-        "secretKey": "Secret Key2222",
+        "secretKey": "Secret Key",
+        "minimumBalance": 250.0,
+        "monthlyMaintenanceFee": 12,
+        "penalty_FEE": 40.0
+    }
+    */
+    // Método para actualizar todos los campos de un Checking Account
+    @PutMapping("/update-put")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Checking updateCheckingAccountPut(@RequestBody @Valid Checking checkingAccount) {
+        return checkingService.updateCheckingAccountPut(checkingAccount);
+    }
+
+    // PATCH -> localhost:8080/checking/update-patch
+    /*
+    {
+        "id": 3,
+        "balance": 500.0,
+        "primaryOwner": {
+            "id": 3,
+            "name": "Phillip (C.A.)",
+            "dateOfBirth": "1982-02-14",
+            "primaryAddress": {
+                "name": "Grove Street",
+                "numberHouse": 24,
+                "city": "LOS SANTOS",
+                "zipCode": 11923
+            }
+        },
+        "secondaryOwner": null,
+        "creationDate": "2022-12-06",
+        "status": "ACTIVE",
+        "secretKey": "Secret Key",
+        "minimumBalance": 250.0,
+        "monthlyMaintenanceFee": 12,
         "penalty_FEE": 40.0
     }
     */
     // Método para actualizar ciertos campos de un Checking Account
-    @PutMapping("/update")
+    @PatchMapping("/update-patch")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Checking updateCheckingAccount(@RequestBody Checking checkingAccount) {
-        return checkingService.updateCheckingAccount(checkingAccount);
+    public Checking updateCheckingAccountPatch(@RequestBody @Valid Checking checkingAccount) {
+        return checkingService.updateCheckingAccountPatch(checkingAccount);
     }
 
-    // todo: falta un método DELETE
+    // DELETE -> localhost:8080/checking/delete/3
+    // Método para eliminar un Checking Account mediante su ID
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.FOUND)
+    public void deleteCheckingAccount(@PathVariable Long id) {
+        checkingService.deleteCheckingAccountById(id);
+    }
 
 }
