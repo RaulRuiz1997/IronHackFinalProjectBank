@@ -29,7 +29,7 @@ public class CheckingService {
 
     }
 
-    // Método para devolver una Checking Accounts por ID de la BBDD
+    // Método para devolver una Checking Account por ID de la BBDD
     public Checking findById(Long id) {
 
         if (checkingRepository.findById(id).isPresent()) {
@@ -118,10 +118,7 @@ public class CheckingService {
     // Método para borrar una Checking Account por ID de la BBDD
     public void deleteCheckingAccountById(Long id) {
 
-        // En el método findById(id) ya comprobamos si la ID existe o no
-        Checking checkingAccount = findById(id);
-
-        checkingRepository.delete(checkingAccount);
+        checkingRepository.deleteById(id);
 
     }
 
