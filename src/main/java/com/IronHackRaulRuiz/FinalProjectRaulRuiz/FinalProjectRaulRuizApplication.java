@@ -72,9 +72,9 @@ public class FinalProjectRaulRuizApplication implements CommandLineRunner {
         Address addressCreditCard = new Address("Street Oporto", 45, "SANT FRANCISCO", 449982);
         Address addressChecking = new Address("Grove Street", 24, "LOS SANTOS", 11923);
 
-        AccountHolder accountHolderSavingsAccount = new AccountHolder("Peter (S.A.)", LocalDate.of(1997, 12, 19), addressSavings);
-        AccountHolder accountHolderCreditCardAccount = new AccountHolder("John (C.C.A)", LocalDate.of(1968, 06, 25), addressCreditCard);
-        AccountHolder accountHolderCheckingAccount = new AccountHolder("Phillip (C.A.)", LocalDate.of(1982, 02, 14), addressChecking);
+        AccountHolder accountHolderSavingsAccount = new AccountHolder("Peter (S.A.)", "password123", LocalDate.of(1997, 12, 19), addressSavings, null);
+        AccountHolder accountHolderCreditCardAccount = new AccountHolder("John (C.C.A)", "password456", LocalDate.of(1968, 06, 25), addressCreditCard, null);
+        AccountHolder accountHolderCheckingAccount = new AccountHolder("Phillip (C.A.)", "password789", LocalDate.of(1982, 02, 14), addressChecking, null);
 
         Savings savingAccount = adminRaul.createSavingAccount(new BigDecimal("21397.24"), accountHolderSavingsAccount, accountHolderCreditCardAccount, StatusAccount.ACTIVE, new BigDecimal("999.0"), "c1n90n8", new BigDecimal("0.2"));
 
