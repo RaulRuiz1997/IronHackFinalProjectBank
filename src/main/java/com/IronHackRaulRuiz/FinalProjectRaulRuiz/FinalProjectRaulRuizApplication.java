@@ -8,6 +8,7 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.roles.Role;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.ThirdParty;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
@@ -23,8 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 
 @SpringBootApplication
 public class FinalProjectRaulRuizApplication implements CommandLineRunner {
@@ -55,26 +54,36 @@ public class FinalProjectRaulRuizApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
-        Admin adminRaul = userRepository.save(new Admin("Raul", passwordEncoder.encode("123456")));
-        User userJaume = userRepository.save(new Admin("Jaume", passwordEncoder.encode("123456")));
-
-        roleRepository.save(new Role("USER", adminRaul));
-        roleRepository.save(new Role("ADMIN", adminRaul));
-        roleRepository.save(new Role("ADMIN", userJaume));
-
-
-
-
-
+        Address address = new Address("Avenida Edimburgo", 12, "Edimburgo", 99456);
         Address addressSavings = new Address("C/ Falsa", 123, "BCN", 8100);
         Address addressCreditCard = new Address("Street Oporto", 45, "SANT FRANCISCO", 449982);
         Address addressChecking = new Address("Grove Street", 24, "LOS SANTOS", 11923);
 
-        AccountHolder accountHolderSavingsAccount = new AccountHolder("Peter (S.A.)", "password123", LocalDate.of(1997, 12, 19), addressSavings, null);
-        AccountHolder accountHolderCreditCardAccount = new AccountHolder("John (C.C.A)", "password456", LocalDate.of(1968, 06, 25), addressCreditCard, null);
-        AccountHolder accountHolderCheckingAccount = new AccountHolder("Phillip (C.A.)", "password789", LocalDate.of(1982, 02, 14), addressChecking, null);
+        Admin adminRaul = userRepository.save(new Admin("admin", passwordEncoder.encode("12345")));
+
+        AccountHolder userJaume = userRepository.save(new AccountHolder("Jaume", passwordEncoder.encode("abcd"), LocalDate.of(1985, 05, 15), address, null));
+        AccountHolder userJose = userRepository.save(new AccountHolder("Jose", passwordEncoder.encode("jose"), LocalDate.of(2001, 12, 06), address, null));
+
+        AccountHolder accountHolderSavingsAccount = userRepository.save(new AccountHolder("Peter", passwordEncoder.encode("peter"), LocalDate.of(1997, 12, 19), addressSavings, null));
+        AccountHolder accountHolderCreditCardAccount = userRepository.save(new AccountHolder("John", passwordEncoder.encode("john"), LocalDate.of(1968, 06, 25), addressCreditCard, null));
+        AccountHolder accountHolderCheckingAccount = userRepository.save(new AccountHolder("Phillip", passwordEncoder.encode("phillip"), LocalDate.of(1982, 02, 14), addressChecking, null));
+
+        ThirdParty userAlex = userRepository.save(new ThirdParty("Alex", passwordEncoder.encode("alex"), "HK-4561172"));
+        ThirdParty userCristian = userRepository.save(new ThirdParty("Cristian", passwordEncoder.encode("cristian"), "HK-771882"));
+
+        roleRepository.save(new Role("ADMIN", adminRaul));
+
+        roleRepository.save(new Role("ACCOUNT-HOLDER", userJaume));
+        roleRepository.save(new Role("ACCOUNT-HOLDER", userJose));
+        roleRepository.save(new Role("ACCOUNT-HOLDER", accountHolderSavingsAccount));
+        roleRepository.save(new Role("ACCOUNT-HOLDER", accountHolderCreditCardAccount));
+        roleRepository.save(new Role("ACCOUNT-HOLDER", accountHolderCheckingAccount));
+
+        roleRepository.save(new Role("THIRD-PARTY-USER", userAlex));
+        roleRepository.save(new Role("THIRD-PARTY-USER", userCristian));
+
 
         Savings savingAccount = adminRaul.createSavingAccount(new BigDecimal("21397.24"), accountHolderSavingsAccount, accountHolderCreditCardAccount, StatusAccount.ACTIVE, new BigDecimal("999.0"), "c1n90n8", new BigDecimal("0.2"));
 
@@ -82,9 +91,9 @@ public class FinalProjectRaulRuizApplication implements CommandLineRunner {
 
         Checking checkingAccount = adminRaul.createCheckingAccount(new BigDecimal("7500.2"), accountHolderCheckingAccount, null, StatusAccount.FROZEN, 2, new BigDecimal("0.2"),  "01101010100H");
 
-        accountHolderRepository.save(accountHolderSavingsAccount);
-        accountHolderRepository.save(accountHolderCreditCardAccount);
-        accountHolderRepository.save(accountHolderCheckingAccount);
+        //accountHolderRepository.save(accountHolderSavingsAccount);
+        //accountHolderRepository.save(accountHolderCreditCardAccount);
+        //accountHolderRepository.save(accountHolderCheckingAccount);
 
         savingsRepository.save(savingAccount);
 

@@ -23,7 +23,7 @@ public class CreditCard extends Account {
     @NotNull
     private BigDecimal interestRate = MAX_INTEREST_RATE;
 
-    private LocalDate lastInterestApplied;
+    private LocalDate lastInterestApplied = LocalDate.now();
 
     public CreditCard() {
     }
@@ -80,7 +80,9 @@ public class CreditCard extends Account {
     //  si ha pasado un mes, y las únicas veces que se accede al saldo es en los getters y setters
     @Override
     public BigDecimal getBalance() {
-        return checkInterestRate(getBalance());
+
+        return checkInterestRate(super.getBalance());
+
     }
 
     // Comprobamos antes el interés mensual
@@ -97,7 +99,7 @@ public class CreditCard extends Account {
     // todo: mirar esto con los profes
     //  creo que esta bien, hacer un test en CreditCardRepositoryTest de este método checkInterestRate()
     //  tiene que ser publica o privada? si es privada no puedo hacer test
-    public BigDecimal checkInterestRate(BigDecimal balance) {
+    private BigDecimal checkInterestRate(BigDecimal balance) {
 
         Period period = Period.between(getLastInterestApplied(), LocalDate.now());
         int monthsPassed = Math.abs(period.getMonths());
@@ -106,11 +108,11 @@ public class CreditCard extends Account {
         // Si no, solo devolvemos el balance sin los intereses aplicados
         if (monthsPassed >= 1) {
 
-            lastInterestApplied = LocalDate.now();
+            lastInterestApplied = lastInterestApplied.plusMonths(monthsPassed);
 
             // Devolvemos el balance * los intereses dividido entre los meses del año así le sumamos los intereses
             // que le pertocan por mes
-            return balance.multiply((getInterestRate().divide(new BigDecimal("12"))));
+            return balance.multiply((getInterestRate().divide(new BigDecimal("12")).multiply(BigDecimal.valueOf(monthsPassed))));
 
         } else {
 

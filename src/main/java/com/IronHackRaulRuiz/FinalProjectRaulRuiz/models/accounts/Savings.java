@@ -29,7 +29,7 @@ public class Savings extends Account {
     @NotNull
     private BigDecimal interestRate = MINIMUM_INTEREST_RATE;
 
-    private LocalDate lastInterestApplied;
+    private LocalDate lastInterestApplied = LocalDate.now();
 
     public Savings() {
     }
@@ -65,7 +65,7 @@ public class Savings extends Account {
     //  PD: Ahora me peta los test de SavingsRepositoryTest pero el CreditCardRepositoryTest NO
     @Override
     public BigDecimal getBalance() {
-        return checkInterestRate(getBalance());
+        return checkInterestRate(super.getBalance());
     }
 
     // Si el balance es menos que el minimum balance, le aplicamos el penalty fee
@@ -87,21 +87,23 @@ public class Savings extends Account {
 
     }
 
-    // todo: mirar esto con los profes
-    //  creo que esta bien, hacer un test en SavingRepositoryTest de este método checkInterestRate()
-    //  tiene que ser publica o privada? si es privada no puedo hacer test
-    public BigDecimal checkInterestRate(BigDecimal balance) {
+    //  todo: hacer un test en SavingTest de este método getBalance()
+
+
+    // Mirar @Schedulle
+    private BigDecimal checkInterestRate(BigDecimal balance) {
 
         Period period = Period.between(getLastInterestApplied(), LocalDate.now());
         int daysPassed = Math.abs(period.getDays());
 
-        // Si ha pasado 1 año, reiniciamos la variable lastInterestApplied y devolvemos el balance con los intereses
+        // Si ha pasado N años, reiniciamos la variable lastInterestApplied y devolvemos el balance con los intereses
         // Si no, solo devolvemos el balance sin los intereses aplicados
         if (daysPassed >= 365) {
 
-            lastInterestApplied = LocalDate.now();
+            // Le sumamos los años para no perder años
+            lastInterestApplied = lastInterestApplied.plusYears(period.getYears());
 
-            return balance.multiply(getInterestRate());
+            return balance.multiply(getInterestRate().multiply(BigDecimal.valueOf(period.getYears())));
 
         } else {
 

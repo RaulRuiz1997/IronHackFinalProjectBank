@@ -25,8 +25,6 @@ public class CheckingRepositoryTest {
 
     // todo: si no hay metodos especificos en los repositorios, hacer testing de los CRUD (CREATE, READ, UPDATE Y DELETE)
 
-    // todo: me peta, mirar porque
-
     @Autowired
     CheckingRepository checkingRepository;
 
@@ -41,7 +39,7 @@ public class CheckingRepositoryTest {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
-        AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
+        AccountHolder accountHolderRaul = new AccountHolder("Raul", "12345", LocalDate.of(1997, 12, 19), address, null);
 
         Checking checkingAccount = admin.createCheckingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 2, new BigDecimal("0.1"),  "secretKey");
 
@@ -54,6 +52,8 @@ public class CheckingRepositoryTest {
     // Test para limpiar toda la BBDD
     @AfterEach
     void clean() {
+
+        accountHolderRepository.deleteAll();
 
         checkingRepository.deleteAll();
 
@@ -73,13 +73,15 @@ public class CheckingRepositoryTest {
 
         }
 
+        // LANZAR UN THROW
+
         // todo: debería haber un else, no? ya que si no esta presente en el if no entra y te dará que ha pasado el test
 
     }
 
     // Test para verificar el método setBalance()
     @Test
-    void ShouldsetBalanceWithPenaltyFee() {
+    void ShouldSetBalanceWithPenaltyFee() {
 
         Checking checkingAccount;
 

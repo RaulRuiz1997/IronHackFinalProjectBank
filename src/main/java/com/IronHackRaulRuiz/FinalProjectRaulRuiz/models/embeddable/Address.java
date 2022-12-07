@@ -1,13 +1,18 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
 
 @Embeddable
 public class Address {
 
+    @NotNull
     private String name;
+    @NotNull
     private Integer numberHouse;
+    @NotNull
     private String city;
+    @NotNull
     private Integer zipCode;
 
     public Address() {

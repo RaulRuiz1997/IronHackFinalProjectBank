@@ -17,7 +17,7 @@ public class AccountHolderService {
         return accountHolderRepository.findAll();
     }
 
-    public AccountHolder createCheckingAccount(AccountHolder accountHolder) {
+    public AccountHolder createAccountHolder(AccountHolder accountHolder) {
         return accountHolderRepository.save(accountHolder);
     }
 

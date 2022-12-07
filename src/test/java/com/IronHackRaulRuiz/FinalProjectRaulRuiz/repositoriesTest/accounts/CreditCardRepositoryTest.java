@@ -35,7 +35,7 @@ public class CreditCardRepositoryTest {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
-        AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
+        AccountHolder accountHolderRaul = new AccountHolder("Raul", "12345", LocalDate.of(1997, 12, 19), address, null);
 
         CreditCard creditCardAccount = admin.createCreditCardAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 2, new BigDecimal("0.1"));
 
@@ -48,6 +48,8 @@ public class CreditCardRepositoryTest {
     // Test para limpiar toda la BBDD
     @AfterEach
     void clean() {
+
+        accountHolderRepository.deleteAll();
 
         creditCardRepository.deleteAll();
 
@@ -77,7 +79,7 @@ public class CreditCardRepositoryTest {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
-        AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
+        AccountHolder accountHolderRaul = new AccountHolder("Raul2", "12345", LocalDate.of(1997, 12, 19), address, null);
 
         CreditCard creditCardAccount = admin.createCreditCardAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 200, new BigDecimal("0.1"));
 
@@ -104,7 +106,7 @@ public class CreditCardRepositoryTest {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
-        AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
+        AccountHolder accountHolderRaul = new AccountHolder("Raul3", "12345", LocalDate.of(1997, 12, 19), address, null);
 
         CreditCard creditCardAccount = admin.createCreditCardAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 200, new BigDecimal("0.1"));
 
@@ -131,7 +133,7 @@ public class CreditCardRepositoryTest {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
-        AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
+        AccountHolder accountHolderRaul = new AccountHolder("Raul4", "12345", LocalDate.of(1997, 12, 19), address, null);
 
         CreditCard creditCardAccount = admin.createCreditCardAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 200, new BigDecimal("0.1"));
 
@@ -158,7 +160,7 @@ public class CreditCardRepositoryTest {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
-        AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
+        AccountHolder accountHolderRaul = new AccountHolder("Raul5", "12345", LocalDate.of(1997, 12, 19), address, null);
 
         CreditCard creditCardAccount = admin.createCreditCardAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 200, new BigDecimal("0.1"));
 
