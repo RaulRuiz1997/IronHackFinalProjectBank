@@ -7,6 +7,8 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 
+import java.math.BigDecimal;
+
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 public class Admin extends User {
@@ -16,13 +18,13 @@ public class Admin extends User {
     public Admin() {
     }
 
-    public Admin(String name) {
-        super(name);
+    public Admin(String name, String password) {
+        super(name, password);
     }
 
     // todo: Mirar esto porque le tengo que pasar por argumentos todos los parámetros del constructor como hice pasándole el accountHolder, no?
-    public Savings createSavingAccount(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Double minimumBalance, String secretKey,
-                                       Double interestRate) {
+    public Savings createSavingAccount(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, BigDecimal minimumBalance, String secretKey,
+                                       BigDecimal interestRate) {
 
         Savings savingAccount = new Savings(balance, primaryOwner, secondaryOwner, status, minimumBalance, secretKey, interestRate);
 
@@ -32,7 +34,7 @@ public class Admin extends User {
 
     }
 
-    public CreditCard createCreditCardAccount(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer creditLimit, Double interestRate) {
+    public CreditCard createCreditCardAccount(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer creditLimit, BigDecimal interestRate) {
 
         CreditCard creditCardAccount = new CreditCard(balance, primaryOwner, secondaryOwner, status, creditLimit, interestRate);
 
@@ -40,9 +42,9 @@ public class Admin extends User {
 
     }
 
-    public Checking createCheckingAccount(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer monthlyMaintenanceFee, Double minimumBalance, String secretKey) {
+    public Checking createCheckingAccount(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer monthlyMaintenanceFee, BigDecimal minimumBalance, String secretKey) {
 
-        Checking checkingAccount = new Checking(500.0, primaryOwner, null, StatusAccount.ACTIVE, "Secret Key");
+        Checking checkingAccount = new Checking(new BigDecimal("500.0"), primaryOwner, null, StatusAccount.ACTIVE, "Secret Key");
 
         return checkingAccount;
 

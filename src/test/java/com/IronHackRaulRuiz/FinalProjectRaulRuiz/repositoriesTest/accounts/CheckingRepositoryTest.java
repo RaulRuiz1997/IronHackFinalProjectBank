@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,13 +34,13 @@ public class CheckingRepositoryTest {
     @BeforeEach
     void setUp() {
 
-        Admin admin = new Admin("Admin");
+        Admin admin = new Admin("Admin", "1234");
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
 
-        Checking checkingAccount = admin.createCheckingAccount(500.0, accountHolderRaul, null, StatusAccount.ACTIVE, 2, 0.1,  "secretKey");
+        Checking checkingAccount = admin.createCheckingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 2, new BigDecimal("0.1"),  "secretKey");
 
         accountHolderRepository.save(accountHolderRaul);
 
@@ -83,7 +84,7 @@ public class CheckingRepositoryTest {
 
             checkingAccount = checkingRepository.findById(1L).get();
 
-            checkingAccount.setBalance(240.0);
+            checkingAccount.setBalance(new BigDecimal("240.0"));
 
             checkingRepository.save(checkingAccount);
 

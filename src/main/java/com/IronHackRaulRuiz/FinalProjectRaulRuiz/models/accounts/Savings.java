@@ -5,8 +5,8 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.cglib.core.Local;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -14,68 +14,70 @@ import java.time.Period;
 @PrimaryKeyJoinColumn(name = "id")
 public class Savings extends Account {
 
-    private static final Double MAXIMUM_INTEREST_RATE = 0.5;
+    private static final BigDecimal MAXIMUM_INTEREST_RATE = new BigDecimal("0.5");
 
-    private static final Double MINIMUM_INTEREST_RATE = 0.0025;
+    private static final BigDecimal MINIMUM_INTEREST_RATE = new BigDecimal("0.0025");
 
-    private static final Double MAXIMUM_BALANCE = 1000.0;
+    private static final BigDecimal MAXIMUM_BALANCE = new BigDecimal("1000.0");
 
-    private static final Double MINIMUM_BALANCE2 = 100.0;
+    private static final BigDecimal MINIMUM_BALANCE2 = new BigDecimal("100.0");
 
     @NotNull
-    private Double minimumBalance = MINIMUM_BALANCE2; // todo: mirar esto que no me vale son el 2 al final
+    private BigDecimal minimumBalance = MINIMUM_BALANCE2; // todo: mirar esto que no me vale son el 2 al final
     @NotNull
     private String secretKey;
     @NotNull
-    private Double interestRate = MINIMUM_INTEREST_RATE;
+    private BigDecimal interestRate = MINIMUM_INTEREST_RATE;
 
     private LocalDate lastInterestApplied;
 
     public Savings() {
     }
 
-    public Savings(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Double minimumBalance, String secretKey, Double interestRate) {
+    public Savings(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, BigDecimal minimumBalance, String secretKey, BigDecimal interestRate) {
         super(balance, primaryOwner, secondaryOwner, status);
-        this.minimumBalance = minimumBalance;
-        this.secretKey = secretKey;
-        this.interestRate = interestRate;
+        setMinimumBalance(minimumBalance);
+        setSecretKey(secretKey);
+        setInterestRate(interestRate);
     }
 
-    // Valores preestablecidos para guardar un interestRate. Mínimo: 0.0025, Máximo, 0.5
-    public void setInterestRate(Double interestRate) {
 
-        if (interestRate > MAXIMUM_INTEREST_RATE) this.interestRate = MAXIMUM_INTEREST_RATE;
-        else if (interestRate < MINIMUM_INTEREST_RATE) this.interestRate = MINIMUM_INTEREST_RATE;
+    // Valores preestablecidos para guardar un interestRate. Mínimo: 0.0025, Máximo, 0.5
+    public void setInterestRate(BigDecimal interestRate) {
+
+        if (interestRate.compareTo(MAXIMUM_INTEREST_RATE) > 0) this.interestRate = MAXIMUM_INTEREST_RATE;
+        else if (interestRate.compareTo(MINIMUM_INTEREST_RATE) < 0) this.interestRate = MINIMUM_INTEREST_RATE;
         else this.interestRate = interestRate;
 
     }
 
     // Valores preestablecidos para guardar un minimumBalance. Mínimo: 100, Máximo, 1000
-    public void setMinimumBalance(Double minimumBalance) {
+    public void setMinimumBalance(BigDecimal minimumBalance) {
 
-        if (minimumBalance > MAXIMUM_BALANCE) this.minimumBalance = MAXIMUM_BALANCE;
-        else if (minimumBalance < MINIMUM_BALANCE2) this.minimumBalance = MINIMUM_BALANCE2;
+        if (minimumBalance.compareTo(MAXIMUM_BALANCE) > 0) this.minimumBalance = MAXIMUM_BALANCE;
+        else if (minimumBalance.compareTo(MINIMUM_BALANCE2) < 0) this.minimumBalance = MINIMUM_BALANCE2;
         else this.minimumBalance = minimumBalance;
 
     }
 
-    // todo: preguntar esto con los profes, lo he hecho porque en el enunciado dice, cuanso se accede al saldo, determinar
-    //  si ha pasado un año, y las unicas veces que se accede al saldo es en los getters y setters
+    // todo: preguntar esto con los profes, lo he hecho porque en el enunciado dice, cuando se accede al saldo, determinar
+    //  si ha pasado un año, y las únicas veces que se accede al saldo es en los getters y setters
+    //  PD: Ahora me peta los test de SavingsRepositoryTest pero el CreditCardRepositoryTest NO
     @Override
-    public Double getBalance() {
+    public BigDecimal getBalance() {
         return checkInterestRate(getBalance());
     }
 
     // Si el balance es menos que el minimum balance, le aplicamos el penalty fee
     @Override
-    public void setBalance(Double balance) {
+    public void setBalance(BigDecimal balance) {
 
         // Comprobamos si ha pasado un año para añadirle o no el interest rate
         balance = checkInterestRate(balance);
 
-        if (balance < MINIMUM_BALANCE2) {
+        if (balance.compareTo(MINIMUM_BALANCE2) < 0) {
 
-            super.setBalance(balance - getPENALTY_FEE());
+            super.setBalance(balance.subtract(getPENALTY_FEE()));
 
         } else {
 
@@ -86,8 +88,9 @@ public class Savings extends Account {
     }
 
     // todo: mirar esto con los profes
-    // todo: creo que esta bien, hacer un test en SavingRepositoryTest de este método checkInterestRate()
-    private Double checkInterestRate(Double balance) {
+    //  creo que esta bien, hacer un test en SavingRepositoryTest de este método checkInterestRate()
+    //  tiene que ser publica o privada? si es privada no puedo hacer test
+    public BigDecimal checkInterestRate(BigDecimal balance) {
 
         Period period = Period.between(getLastInterestApplied(), LocalDate.now());
         int daysPassed = Math.abs(period.getDays());
@@ -98,7 +101,7 @@ public class Savings extends Account {
 
             lastInterestApplied = LocalDate.now();
 
-            return balance * getInterestRate();
+            return balance.multiply(getInterestRate());
 
         } else {
 
@@ -118,7 +121,7 @@ public class Savings extends Account {
 
     }
 
-    public Double getMinimumBalance() {
+    public BigDecimal getMinimumBalance() {
         return minimumBalance;
     }
 
@@ -130,7 +133,7 @@ public class Savings extends Account {
         this.secretKey = secretKey;
     }
 
-    public Double getInterestRate() {
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
 

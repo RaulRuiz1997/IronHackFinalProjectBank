@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
+
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 public class Checking extends Account {
@@ -13,27 +15,27 @@ public class Checking extends Account {
     @NotNull
     private final Integer MONTHLY_MAINTENANCE_FEE = 12;
     @NotNull
-    private final Double MINIMUM_BALANCE = 250.0;
+    private final BigDecimal MINIMUM_BALANCE = new BigDecimal("250.0");
     @NotNull
     private String secretKey;
 
     public Checking() {
     }
 
-    public Checking(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, String secretKey) {
+    public Checking(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, String secretKey) {
         super(balance, primaryOwner, secondaryOwner, status);
-        this.secretKey = secretKey;
+        setSecretKey(secretKey);
     }
 
-    // todo: Segun alex, esta lógica deberia estar en un nuevo metodo que se hace en las transferencias
+    // todo: Según alex, esta lógica debería estar en un nuevo método que se hace en las transferencias
 
     // Si el balance es menos que el minimum balance, le aplicamos el penalty fee
     @Override
-    public void setBalance(Double balance, Double MINIMUM_BALANCE) {
+    public void setBalance(BigDecimal balance, BigDecimal MINIMUM_BALANCE) {
 
-        // 240 < 250 = 240 - 40 = balance 200
-        if (balance < MINIMUM_BALANCE) {
-            super.setBalance(balance - getPENALTY_FEE());
+        // Si el balance es menor a MINIMUM_BALANCE dará -1
+        if (balance.compareTo(MINIMUM_BALANCE) < 0) {
+            super.setBalance(balance.subtract(getPENALTY_FEE()));
         } else {
             super.setBalance(balance);
         }
@@ -44,7 +46,7 @@ public class Checking extends Account {
         return MONTHLY_MAINTENANCE_FEE;
     }
 
-    public Double getMinimumBalance() {
+    public BigDecimal getMinimumBalance() {
         return MINIMUM_BALANCE;
     }
 

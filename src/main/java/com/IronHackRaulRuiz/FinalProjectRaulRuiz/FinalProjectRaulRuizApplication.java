@@ -5,6 +5,7 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.CreditCard;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.roles.Role;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
@@ -12,11 +13,15 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingR
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.AccountHolderRepository;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.RoleRepository;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -36,6 +41,15 @@ public class FinalProjectRaulRuizApplication implements CommandLineRunner {
     @Autowired
     CheckingRepository checkingRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     public static void main(String[] args) {
         SpringApplication.run(FinalProjectRaulRuizApplication.class, args);
     }
@@ -43,7 +57,16 @@ public class FinalProjectRaulRuizApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Admin admin = new Admin("Admin");
+        Admin adminRaul = userRepository.save(new Admin("Raul", passwordEncoder.encode("123456")));
+        User userJaume = userRepository.save(new Admin("Jaume", passwordEncoder.encode("123456")));
+
+        roleRepository.save(new Role("USER", adminRaul));
+        roleRepository.save(new Role("ADMIN", adminRaul));
+        roleRepository.save(new Role("ADMIN", userJaume));
+
+
+
+
 
         Address addressSavings = new Address("C/ Falsa", 123, "BCN", 8100);
         Address addressCreditCard = new Address("Street Oporto", 45, "SANT FRANCISCO", 449982);
@@ -53,11 +76,11 @@ public class FinalProjectRaulRuizApplication implements CommandLineRunner {
         AccountHolder accountHolderCreditCardAccount = new AccountHolder("John (C.C.A)", LocalDate.of(1968, 06, 25), addressCreditCard);
         AccountHolder accountHolderCheckingAccount = new AccountHolder("Phillip (C.A.)", LocalDate.of(1982, 02, 14), addressChecking);
 
-        Savings savingAccount = admin.createSavingAccount(21397.24, accountHolderSavingsAccount, accountHolderCreditCardAccount, StatusAccount.ACTIVE, 999.0, "c1n90n8", 0.2);
+        Savings savingAccount = adminRaul.createSavingAccount(new BigDecimal("21397.24"), accountHolderSavingsAccount, accountHolderCreditCardAccount, StatusAccount.ACTIVE, new BigDecimal("999.0"), "c1n90n8", new BigDecimal("0.2"));
 
-        CreditCard creditCardAccount = admin.createCreditCardAccount(914214.2, accountHolderCreditCardAccount, null, StatusAccount.ACTIVE, 89523, 0.015);
+        CreditCard creditCardAccount = adminRaul.createCreditCardAccount(new BigDecimal("914214.2"), accountHolderCreditCardAccount, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
 
-        Checking checkingAccount = admin.createCheckingAccount(7500.2, accountHolderCheckingAccount, null, StatusAccount.FROZEN, 2, 0.2,  "01101010100H");
+        Checking checkingAccount = adminRaul.createCheckingAccount(new BigDecimal("7500.2"), accountHolderCheckingAccount, null, StatusAccount.FROZEN, 2, new BigDecimal("0.2"),  "01101010100H");
 
         accountHolderRepository.save(accountHolderSavingsAccount);
         accountHolderRepository.save(accountHolderCreditCardAccount);

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,13 +33,13 @@ public class SavingsRepositoryTest {
     @BeforeEach
     void setUp() {
 
-        Admin admin = new Admin("Admin");
+        Admin admin = new Admin("Admin", "1234");
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
 
-        Savings savingAccount = admin.createSavingAccount(500.0, accountHolderRaul, null, StatusAccount.ACTIVE, 200.0, "secretKey", 0.1);
+        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         accountHolderRepository.save(accountHolderRaul);
 
@@ -74,13 +75,13 @@ public class SavingsRepositoryTest {
     @Test
     void ListSizeShouldBe2() {
 
-        Admin admin = new Admin("Admin");
+        Admin admin = new Admin("Admin", "1234");
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
 
-        Savings savingAccount = admin.createSavingAccount(500.0, accountHolderRaul, null, StatusAccount.ACTIVE, 200.0, "secretKey", 0.1);
+        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         accountHolderRepository.save(accountHolderRaul);
 
@@ -98,16 +99,16 @@ public class SavingsRepositoryTest {
     @Test
     void shouldSetRateAtMinimum() {
 
-        Admin admin = new Admin("Admin");
+        Admin admin = new Admin("Admin", "1234");
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
 
-        Savings savingAccount = admin.createSavingAccount(500.0, accountHolderRaul, null, StatusAccount.ACTIVE, 200.0, "secretKey", 0.1);
+        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         // Seteamos el interestRate por debajo del mínimo permitido, entonces lo pondrá al mínimo en vez del que le intentan meter
-        savingAccount.setInterestRate(-1.0);
+        savingAccount.setInterestRate(new BigDecimal("-1.0"));
 
         accountHolderRaul = accountHolderRepository.save(accountHolderRaul);
 
@@ -125,16 +126,16 @@ public class SavingsRepositoryTest {
     @Test
     void shouldSetRateAtMax() {
 
-        Admin admin = new Admin("Admin");
+        Admin admin = new Admin("Admin", "1234");
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
 
-        Savings savingAccount = admin.createSavingAccount(500.0, accountHolderRaul, null, StatusAccount.ACTIVE, 200.0, "secretKey", 0.1);
+        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         // Seteamos el interestRate por encima del máximo permitido, entonces lo pondrá al máximo en vez del que le intentan meter
-        savingAccount.setInterestRate(0.6);
+        savingAccount.setInterestRate(new BigDecimal("0.6"));
 
         accountHolderRaul = accountHolderRepository.save(accountHolderRaul);
 
@@ -152,16 +153,16 @@ public class SavingsRepositoryTest {
     @Test
     void shouldSetBalanceAtMinimum() {
 
-        Admin admin = new Admin("Admin");
+        Admin admin = new Admin("Admin", "1234");
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
 
-        Savings savingAccount = admin.createSavingAccount(500.0, accountHolderRaul, null, StatusAccount.ACTIVE, 200.0, "secretKey", 0.1);
+        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         // Seteamos el balance mínimo por debajo del mínimo permitido, entonces lo pondrá al mínimo en vez del que le intentan meter
-        savingAccount.setMinimumBalance(90.0);
+        savingAccount.setMinimumBalance(new BigDecimal("90.0"));
 
         accountHolderRaul = accountHolderRepository.save(accountHolderRaul);
 
@@ -179,16 +180,16 @@ public class SavingsRepositoryTest {
     @Test
     void shouldSetBalanceAtMax() {
 
-        Admin admin = new Admin("Admin");
+        Admin admin = new Admin("Admin", "1234");
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
 
-        Savings savingAccount = admin.createSavingAccount(500.0, accountHolderRaul, null, StatusAccount.ACTIVE, 200.0, "secretKey", 0.1);
+        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         // Seteamos el balance máximo por encima del máximo permitido, entonces lo pondrá al máximo en vez del que le intentan meter
-        savingAccount.setMinimumBalance(1100.0);
+        savingAccount.setMinimumBalance(new BigDecimal("1100.0"));
 
         accountHolderRaul = accountHolderRepository.save(accountHolderRaul);
 
@@ -197,6 +198,29 @@ public class SavingsRepositoryTest {
         if (savingsRepository.findByPrimaryOwnerId(accountHolderRaul.getId()).isPresent()) {
 
             assertEquals(1000, savingsRepository.findByPrimaryOwnerId(accountHolderRaul.getId()).get().getMinimumBalance());
+
+        }
+
+    }
+
+    @Test
+    void TestMethodInterestRate() {
+
+        Admin admin = new Admin("Admin", "1234");
+
+        Address address = new Address("C/ Falsa", 123, "BCN", 8100);
+
+        AccountHolder accountHolderRaul = new AccountHolder("Raul", LocalDate.of(1997, 12, 19), address);
+
+        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
+
+        savingsRepository.save(savingAccount);
+
+        if (savingsRepository.findById(savingAccount.getId()).isPresent()) {
+
+            Savings savingAccountNew = savingsRepository.findById(savingAccount.getId()).get();
+
+            assertEquals(savingAccountNew.getBalance(), savingAccountNew.checkInterestRate(savingAccountNew.getBalance()));
 
         }
 

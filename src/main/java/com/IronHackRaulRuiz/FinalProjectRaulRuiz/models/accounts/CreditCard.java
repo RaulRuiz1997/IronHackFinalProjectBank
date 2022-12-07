@@ -2,13 +2,13 @@ package com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts;
 
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
@@ -16,17 +16,19 @@ public class CreditCard extends Account {
 
     private final Integer MIN_CREDIT_LIMIT = 100;
     private final Integer MAX_CREDIT_LIMIT = 100000;
-    private final Double MAX_INTEREST_RATE = 0.2;
-    private final Double MIN_INTEREST_RATE = 0.1;
+    private final BigDecimal MAX_INTEREST_RATE = new BigDecimal("0.2");
+    private final BigDecimal MIN_INTEREST_RATE = new BigDecimal("0.1");
     @NotNull
     private Integer creditLimit = 100;
     @NotNull
-    private Double interestRate = MAX_INTEREST_RATE;
+    private BigDecimal interestRate = MAX_INTEREST_RATE;
+
+    private LocalDate lastInterestApplied;
 
     public CreditCard() {
     }
 
-    public CreditCard(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer creditLimit, Double interestRate) {
+    public CreditCard(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, Integer creditLimit, BigDecimal interestRate) {
         super(balance, primaryOwner, secondaryOwner, status);
         setCreditLimit(creditLimit);
         setInterestRate(interestRate);
@@ -40,11 +42,11 @@ public class CreditCard extends Account {
         return MAX_CREDIT_LIMIT;
     }
 
-    public Double getMAX_INTEREST_RATE() {
+    public BigDecimal getMAX_INTEREST_RATE() {
         return MAX_INTEREST_RATE;
     }
 
-    public Double getMIN_INTEREST_RATE() {
+    public BigDecimal getMIN_INTEREST_RATE() {
         return MIN_INTEREST_RATE;
     }
 
@@ -52,7 +54,7 @@ public class CreditCard extends Account {
         return creditLimit;
     }
 
-    public Double getInterestRate() {
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
 
@@ -66,16 +68,65 @@ public class CreditCard extends Account {
     }
 
     // Valores preestablecidos para guardar un interestRate. Mínimo: 0.1, Máximo, 0.2
-    public void setInterestRate(Double interestRate) {
+    public void setInterestRate(BigDecimal interestRate) {
 
-        if (interestRate > MAX_INTEREST_RATE) this.interestRate = MAX_INTEREST_RATE;
-        else if (interestRate < MIN_INTEREST_RATE) this.interestRate = MIN_INTEREST_RATE;
+        if (interestRate.compareTo(MAX_INTEREST_RATE) > 0) this.interestRate = MAX_INTEREST_RATE;
+        else if (interestRate.compareTo(MIN_INTEREST_RATE) < 0) this.interestRate = MIN_INTEREST_RATE;
         else this.interestRate = interestRate;
 
     }
 
+    // todo: preguntar esto con los profes, lo he hecho porque en el enunciado dice, cuando se accede al saldo, determinar
+    //  si ha pasado un mes, y las únicas veces que se accede al saldo es en los getters y setters
     @Override
-    public void setBalance(Double balance) {
+    public BigDecimal getBalance() {
+        return checkInterestRate(getBalance());
+    }
+
+    // Comprobamos antes el interés mensual
+    @Override
+    public void setBalance(BigDecimal balance) {
+
+        // Comprobamos si ha pasado un año para añadirle o no el interest rate
+        balance = checkInterestRate(balance);
+
+        super.setBalance(balance);
+
+    }
+
+    // todo: mirar esto con los profes
+    //  creo que esta bien, hacer un test en CreditCardRepositoryTest de este método checkInterestRate()
+    //  tiene que ser publica o privada? si es privada no puedo hacer test
+    public BigDecimal checkInterestRate(BigDecimal balance) {
+
+        Period period = Period.between(getLastInterestApplied(), LocalDate.now());
+        int monthsPassed = Math.abs(period.getMonths());
+
+        // Si ha pasado 1 mes, reiniciamos la variable lastInterestApplied y devolvemos el balance con los intereses
+        // Si no, solo devolvemos el balance sin los intereses aplicados
+        if (monthsPassed >= 1) {
+
+            lastInterestApplied = LocalDate.now();
+
+            // Devolvemos el balance * los intereses dividido entre los meses del año así le sumamos los intereses
+            // que le pertocan por mes
+            return balance.multiply((getInterestRate().divide(new BigDecimal("12"))));
+
+        } else {
+
+            return balance;
+
+        }
+
+    }
+
+    private LocalDate getLastInterestApplied() {
+
+        if (lastInterestApplied == null) {
+            lastInterestApplied = LocalDate.now();
+        }
+
+        return lastInterestApplied;
 
     }
 

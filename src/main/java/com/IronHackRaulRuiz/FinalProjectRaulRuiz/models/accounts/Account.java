@@ -6,6 +6,7 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -17,14 +18,14 @@ public abstract class Account {
     private Long id;
 
     @NotNull(message = "El balance no puede ser NULL!")
-    private Double balance;
+    private BigDecimal balance;
     @NotNull(message = "El primaryOwner no puede ser NULL!")
     @ManyToOne
     private AccountHolder primaryOwner;
     @Nullable
     @ManyToOne
     private AccountHolder secondaryOwner;
-    private final Double PENALTY_FEE = 40.0;
+    private final BigDecimal PENALTY_FEE = new BigDecimal("40.0");
     @NotNull(message = "El creationDate no puede ser NULL!")
     private LocalDate creationDate;
 
@@ -32,12 +33,12 @@ public abstract class Account {
     @Enumerated(EnumType.STRING)
     private StatusAccount status;
 
-    private final Double MINIMUM_BALANCE = 250.0;
+    private final BigDecimal MINIMUM_BALANCE = new BigDecimal("250.0");
 
     public Account() {
     }
 
-    public Account(Double balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status) {
+    public Account(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status) {
         setBalance(balance);
         setPrimaryOwner(primaryOwner);
         setSecondaryOwner(secondaryOwner);
@@ -49,14 +50,14 @@ public abstract class Account {
         return id;
     }
 
-    public Double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
-    public void setBalance(Double balance, Double MINIMUM_BALANCE) {
+    public void setBalance(BigDecimal balance, BigDecimal MINIMUM_BALANCE) {
         this.balance = balance;
     }
 
@@ -76,7 +77,7 @@ public abstract class Account {
         this.secondaryOwner = secondaryOwner;
     }
 
-    public Double getPENALTY_FEE() {
+    public BigDecimal getPENALTY_FEE() {
         return PENALTY_FEE;
     }
 
