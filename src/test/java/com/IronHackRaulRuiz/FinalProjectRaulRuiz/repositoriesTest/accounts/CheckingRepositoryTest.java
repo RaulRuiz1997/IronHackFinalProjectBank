@@ -24,6 +24,9 @@ public class CheckingRepositoryTest {
     // todo: Los test se hacen asi? Jose te dijo que el método admin.createCheckingAccount() debería tener la lógica en el Service
 
     // todo: si no hay metodos especificos en los repositorios, hacer testing de los CRUD (CREATE, READ, UPDATE Y DELETE)
+
+    // todo: me peta, mirar porque
+
     @Autowired
     CheckingRepository checkingRepository;
 

@@ -16,12 +16,23 @@ public class AccountHolder extends User {
     @NotNull
     private LocalDate dateOfBirth;
     @NotNull
-    @Embedded
+    @Embedded // String name, Integer numberHouse, String city, Integer zipCode
+    @AttributeOverrides({
+            @AttributeOverride(name = "name", column = @Column(name = "ADDRESS_NAME")),
+            @AttributeOverride(name = "numberHouse", column = @Column(name = "ADDRESS_NUMBER_HOUSE")),
+            @AttributeOverride(name = "city", column = @Column(name = "ADDRESS_CITY")),
+            @AttributeOverride(name = "zipCode", column = @Column(name = "ADDRESS_ZIP_CODE"))
+    })
     private Address primaryAddress;
 
-    //@NotNull
-    //@Embedded
-    //private Address mailingAddress;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "name", column = @Column(name = "MAILING_ADDRESS_NAME")),
+            @AttributeOverride(name = "numberHouse", column = @Column(name = "MAILING_ADDRESS_NUMBER_HOUSE")),
+            @AttributeOverride(name = "city", column = @Column(name = "MAILING_ADDRESS_CITY")),
+            @AttributeOverride(name = "zipCode", column = @Column(name = "MAILING_ADDRESS_ZIP_CODE"))
+    })
+    private Address mailingAddress;
 
     @JsonIgnore
     @OneToMany(mappedBy = "primaryOwner", cascade= CascadeType.ALL)
@@ -34,11 +45,13 @@ public class AccountHolder extends User {
     public AccountHolder() {
     }
 
-    public AccountHolder(String name, LocalDate dateOfBirth, Address primaryAddress) {
-        super(name);
-        this.dateOfBirth = dateOfBirth;
-        this.primaryAddress = primaryAddress;
+    public AccountHolder(String name, String password, LocalDate dateOfBirth, Address primaryAddress, Address mailingAddress) {
+        super(name, password);
+        setDateOfBirth(dateOfBirth);
+        setPrimaryAddress(primaryAddress);
+        setMailingAddress(mailingAddress);
     }
+
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
@@ -54,6 +67,14 @@ public class AccountHolder extends User {
 
     public void setPrimaryAddress(Address primaryAddress) {
         this.primaryAddress = primaryAddress;
+    }
+
+    public Address getMailingAddress() {
+        return mailingAddress;
+    }
+
+    public void setMailingAddress(Address mailingAddress) {
+        this.mailingAddress = mailingAddress;
     }
 
     public List<Account> getAccountListPrimaryOwner() {

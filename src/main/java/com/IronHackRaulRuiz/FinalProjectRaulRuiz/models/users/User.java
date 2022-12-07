@@ -19,7 +19,14 @@ public abstract class User {
     private String name;
     @JsonIgnore
     private String password;
-    @JsonIgnore // todo: que es el FetchType.EAGER?
+
+
+
+    // todo: que es el FetchType.EAGER?
+
+
+
+    @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Role> roles = new HashSet<>();
 
