@@ -49,7 +49,7 @@ public class AccountHolderController {
         "mailingAddress": null
     }
     */
-    // Método para añadir un Account Holders
+    // Método para añadir un Account Holder
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public AccountHolder createAccountHolder(@RequestBody @Valid AccountHolder accountHolder) {

@@ -10,6 +10,7 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.ThirdParty;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.AccountRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
@@ -70,8 +71,8 @@ public class FinalProjectRaulRuizApplication implements CommandLineRunner {
         AccountHolder accountHolderCreditCardAccount = userRepository.save(new AccountHolder("John", passwordEncoder.encode("john"), LocalDate.of(1968, 06, 25), addressCreditCard, null));
         AccountHolder accountHolderCheckingAccount = userRepository.save(new AccountHolder("Phillip", passwordEncoder.encode("phillip"), LocalDate.of(1982, 02, 14), addressChecking, null));
 
-        ThirdParty userAlex = userRepository.save(new ThirdParty("Alex", passwordEncoder.encode("alex"), "HK-4561172"));
-        ThirdParty userCristian = userRepository.save(new ThirdParty("Cristian", passwordEncoder.encode("cristian"), "HK-771882"));
+        ThirdParty userAlex = userRepository.save(new ThirdParty("Alex", passwordEncoder.encode("alex"), "HK-1"));
+        ThirdParty userCristian = userRepository.save(new ThirdParty("Cristian", passwordEncoder.encode("cristian"), "HK-2"));
 
         roleRepository.save(new Role("ADMIN", adminRaul));
 
@@ -88,7 +89,7 @@ public class FinalProjectRaulRuizApplication implements CommandLineRunner {
 
         CreditCard creditCardAccount = adminRaul.createCreditCardAccount(new BigDecimal("914214.2"), accountHolderCreditCardAccount, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
 
-        Checking checkingAccount = adminRaul.createCheckingAccount(new BigDecimal("7500.2"), accountHolderCheckingAccount, null, StatusAccount.FROZEN, 2, new BigDecimal("0.2"),  "01101010100H");
+        Checking checkingAccount = adminRaul.createCheckingAccount(new BigDecimal("7500.2"), accountHolderCheckingAccount, null, StatusAccount.FROZEN, 2, new BigDecimal("0.2"), "01101010100H");
 
         //accountHolderRepository.save(accountHolderSavingsAccount);
         //accountHolderRepository.save(accountHolderCreditCardAccount);

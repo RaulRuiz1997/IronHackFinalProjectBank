@@ -2,14 +2,23 @@ package com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.accounts;
 
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.dtos.AccountDTO;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.dtos.TransactionDTO;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.dtos.TransactionThirdPartyUsersDTO;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Account;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Checking;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.StudentChecking;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.roles.Role;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transfers.Transaction;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.ThirdParty;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.AccountRepository;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.StudentCheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.transactions.TransactionRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.AccountHolderRepository;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.ThirdPartyRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +40,18 @@ public class AccountService {
 
     @Autowired
     TransactionRepository transactionRepository;
+
+    @Autowired
+    ThirdPartyRepository thirdPartyRepository;
+
+    @Autowired
+    CheckingRepository checkingRepository;
+
+    @Autowired
+    StudentCheckingRepository studentCheckingRepository;
+
+    @Autowired
+    SavingsRepository savingsRepository;
 
     public List<Account> findAll() {
         return accountRepository.findAll();
@@ -97,6 +118,8 @@ public class AccountService {
 
     public Account setBalance(AccountDTO accountDTO) {
 
+        // No valido si son números negativos por si los admins tienen que hacer pruebas, etc
+
         Account account;
 
         if (accountRepository.findById(accountDTO.getId()).isPresent()) {
@@ -115,9 +138,7 @@ public class AccountService {
     }
 
 
-    public TransactionDTO sendMoney(Long idSenderAccount, Transaction transaction, UserDetails userDetails) throws Exception {
-
-        // verificar que el userDetails el nombre sea el primary owner name o secondary owner name o admin
+    public TransactionDTO sendMoney(Long idSenderAccount, Transaction transaction, UserDetails userDetails) {
 
         Account senderAccount;
         Account recipientAccount;
@@ -188,6 +209,148 @@ public class AccountService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "ID no encontrado");
 
         }
+
+    }
+
+
+    public TransactionThirdPartyUsersDTO moveMoneyFromThirdPartyUser(String hashedKey, TransactionThirdPartyUsersDTO transaction, UserDetails userDetails) {
+
+        boolean isAdmin = false;
+        boolean isThirdPartyUser = false;
+        ThirdParty thirdPartyUser;
+        Checking checkingAccount;
+        StudentChecking studentCheckingAccount;
+        Savings savingsAccount;
+
+        // Obtenemos el usuario
+        User user = userRepository.findByName(userDetails.getUsername()).get();
+
+        // Comprobamos los roles que tiene ese usuario
+        for (Role rol : user.getRoles()) {
+
+            if (rol.getRole().equals("ADMIN")) isAdmin = true;
+            if (rol.getRole().equals("THIRD-PARTY-USER")) isThirdPartyUser = true;
+
+        }
+
+        // Verificamos que el Rol sea o ADMIN o THIRD-PARTY-USER
+        if (isAdmin || isThirdPartyUser) {
+
+            if (thirdPartyRepository.findById(user.getId()).isPresent()) {
+
+                // Obtenemos el Third Party User
+                thirdPartyUser = thirdPartyRepository.findById(user.getId()).get();
+
+                // Verificamos que la hashed key proporcionada sea la misma que la que tiene el usuario
+                if (thirdPartyUser.getHashedKey().equals(hashedKey)) {
+
+                    // Verificamos que el ID de la cuenta que recibimos exista
+                    // (Debe ser una cuenta Checking o StudentChecking o Savings)
+                    if (checkingRepository.findById(transaction.getAccountId()).isPresent()) {
+
+                        checkingAccount = checkingRepository.findById(transaction.getAccountId()).get();
+
+                        // Verificamos que la secret key proporcionada sea la misma que la que tengamos en la cuenta
+                        if (checkingAccount.getSecretKey().equals(transaction.getSecretKey())) {
+
+                            // todo mirar esta mierda
+
+                            // Si el valor "amount" que le hemos pasado es positivo le sumamos ese amount al balance de la cuenta
+                            // Si es negativo, se lo restamos
+                            if (transaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
+
+                                checkingAccount.setBalance(checkingAccount.getBalance().add(transaction.getAmount()));
+
+                            } else {
+
+                                checkingAccount.setBalance(checkingAccount.getBalance().subtract(transaction.getAmount()));
+
+                            }
+
+                            checkingRepository.save(checkingAccount);
+
+                            return new TransactionThirdPartyUsersDTO(transaction.getAmount(), transaction.getAccountId(), checkingAccount.getBalance());
+
+                        } else {
+
+                            throw new ResponseStatusException(HttpStatus.NON_AUTHORITATIVE_INFORMATION, "La secret key no es correcta");
+
+                        }
+
+                    } else if (studentCheckingRepository.findById(transaction.getAccountId()).isPresent()) {
+
+                        studentCheckingAccount = studentCheckingRepository.findById(transaction.getAccountId()).get();
+
+                        // Verificamos que la secret key proporcionada sea la misma que la que tengamos en la cuenta
+                        if (studentCheckingAccount.getSecretKey().equals(transaction.getSecretKey())) {
+
+                            // Si el valor "amount" que le hemos pasado es positivo le sumamos ese amount al balance de la cuenta
+                            // Si es negativo, se lo restamos
+                            if (transaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
+
+                                studentCheckingAccount.setBalance(studentCheckingAccount.getBalance().add(transaction.getAmount()));
+
+                            } else {
+
+                                studentCheckingAccount.setBalance(studentCheckingAccount.getBalance().subtract(transaction.getAmount()));
+
+                            }
+
+                            studentCheckingRepository.save(studentCheckingAccount);
+
+                            return new TransactionThirdPartyUsersDTO(transaction.getAmount(), transaction.getAccountId(), studentCheckingAccount.getBalance());
+
+
+                        } else {
+
+                            throw new ResponseStatusException(HttpStatus.NON_AUTHORITATIVE_INFORMATION, "La secret key no es correcta");
+
+                        }
+
+                    } else if (savingsRepository.findById(transaction.getAccountId()).isPresent()) {
+
+                        savingsAccount = savingsRepository.findById(transaction.getAccountId()).get();
+
+                        // Verificamos que la secret key proporcionada sea la misma que la que tengamos en la cuenta
+                        if (savingsAccount.getSecretKey().equals(transaction.getSecretKey())) {
+
+                            // Si el valor "amount" que le hemos pasado es positivo le sumamos ese amount al balance de la cuenta
+                            // Si es negativo, se lo restamos
+                            if (transaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
+
+                                savingsAccount.setBalance(savingsAccount.getBalance().add(transaction.getAmount()));
+
+                            } else {
+
+                                savingsAccount.setBalance(savingsAccount.getBalance().subtract(transaction.getAmount()));
+
+                            }
+
+                            savingsRepository.save(savingsAccount);
+
+                            return new TransactionThirdPartyUsersDTO(transaction.getAmount(), transaction.getAccountId(), savingsAccount.getBalance());
+
+
+                        } else {
+
+                            throw new ResponseStatusException(HttpStatus.NON_AUTHORITATIVE_INFORMATION, "La secret key no es correcta");
+
+                        }
+
+                    } else {
+
+                        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID no encontrada");
+
+                    }
+
+                }
+
+            }
+
+
+        }
+
+        return null;
 
     }
 

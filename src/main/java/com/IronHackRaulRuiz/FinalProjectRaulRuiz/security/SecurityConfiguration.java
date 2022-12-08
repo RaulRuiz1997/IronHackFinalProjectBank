@@ -38,6 +38,7 @@ public class SecurityConfiguration {
 
                 .requestMatchers(HttpMethod.GET, "/account-holder/get-balance/**").hasAnyRole("ACCOUNT-HOLDER", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/account-holder/send-money/**").hasAnyRole("ACCOUNT-HOLDER", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/third-party/move-money/**").hasAnyRole("THIRD-PARTY-USER", "ADMIN")
 
                 .requestMatchers(HttpMethod.GET, "/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
