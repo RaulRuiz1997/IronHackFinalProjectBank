@@ -31,13 +31,11 @@ public class CreditCardRepositoryTest {
     @BeforeEach
     void setUp() {
 
-        Admin admin = new Admin("Admin", "1234");
-
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        CreditCard creditCardAccount = admin.createCreditCardAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 2, new BigDecimal("0.1"));
+        CreditCard creditCardAccount = new CreditCard(new BigDecimal("914214.2"), accountHolderRaul, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
 
         accountHolderRepository.save(accountHolderRaul);
 
@@ -75,13 +73,11 @@ public class CreditCardRepositoryTest {
     @Test
     void ShouldSetCreditLimitAtMinimum() {
 
-        Admin admin = new Admin("Admin", "1234");
-
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul2", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        CreditCard creditCardAccount = admin.createCreditCardAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 200, new BigDecimal("0.1"));
+        CreditCard creditCardAccount = new CreditCard(new BigDecimal("914214.2"), accountHolderRaul, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
 
         // Seteamos el balance mínimo por debajo del mínimo permitido, entonces lo pondrá al mínimo en vez del que le intentan meter
         creditCardAccount.setCreditLimit(90);
@@ -102,13 +98,11 @@ public class CreditCardRepositoryTest {
     @Test
     void ShouldSetCreditLimitAtMaximum() {
 
-        Admin admin = new Admin("Admin", "1234");
-
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul3", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        CreditCard creditCardAccount = admin.createCreditCardAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 200, new BigDecimal("0.1"));
+        CreditCard creditCardAccount = new CreditCard(new BigDecimal("914214.2"), accountHolderRaul, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
 
         // Seteamos el balance mínimo por debajo del mínimo permitido, entonces lo pondrá al mínimo en vez del que le intentan meter
         creditCardAccount.setCreditLimit(120000);
@@ -129,13 +123,11 @@ public class CreditCardRepositoryTest {
     @Test
     void ShouldSetInterestRateAtMinimum() {
 
-        Admin admin = new Admin("Admin", "1234");
-
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul4", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        CreditCard creditCardAccount = admin.createCreditCardAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 200, new BigDecimal("0.1"));
+        CreditCard creditCardAccount = new CreditCard(new BigDecimal("914214.2"), accountHolderRaul, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
 
         // Seteamos el interestRate mínimo por debajo del mínimo permitido, entonces lo pondrá al mínimo en vez del que le intentan meter
         creditCardAccount.setInterestRate(new BigDecimal("0.01"));
@@ -156,13 +148,11 @@ public class CreditCardRepositoryTest {
     @Test
     void ShouldSetInterestRateAtMaximum() {
 
-        Admin admin = new Admin("Admin", "1234");
-
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul5", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        CreditCard creditCardAccount = admin.createCreditCardAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 200, new BigDecimal("0.1"));
+        CreditCard creditCardAccount = new CreditCard(new BigDecimal("914214.2"), accountHolderRaul, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
 
         // Seteamos el interestRate por debajo del máximo permitido, entonces lo pondrá al máximo en vez del que le intentan meter
         creditCardAccount.setInterestRate(new BigDecimal("0.3"));

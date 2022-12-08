@@ -2,6 +2,10 @@ package com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts;
 
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -26,9 +30,10 @@ public abstract class Account {
     @ManyToOne
     private AccountHolder secondaryOwner;
     private final BigDecimal PENALTY_FEE = new BigDecimal("40.0");
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     @NotNull(message = "El creationDate no puede ser NULL!")
     private LocalDate creationDate;
-
     @NotNull(message = "El status no puede ser NULL!")
     @Enumerated(EnumType.STRING)
     private StatusAccount status;

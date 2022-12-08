@@ -3,6 +3,10 @@ package com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Account;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,6 +17,8 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "id")
 public class AccountHolder extends User {
 
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     @NotNull
     private LocalDate dateOfBirth;
     @NotNull

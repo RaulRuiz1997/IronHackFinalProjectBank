@@ -35,13 +35,11 @@ public class CheckingRepositoryTest {
     @BeforeEach
     void setUp() {
 
-        Admin admin = new Admin("Admin", "1234");
-
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        Checking checkingAccount = admin.createCheckingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 2, new BigDecimal("0.1"),  "secretKey");
+        Checking checkingAccount = new Checking(new BigDecimal("7500.2"), accountHolderRaul, null, StatusAccount.FROZEN, "01101010100H");
 
         accountHolderRepository.save(accountHolderRaul);
 
