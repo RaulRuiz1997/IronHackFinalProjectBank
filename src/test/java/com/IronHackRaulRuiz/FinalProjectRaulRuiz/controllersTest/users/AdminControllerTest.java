@@ -9,7 +9,6 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.AdminRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,7 +65,7 @@ public class AdminControllerTest {
 
     }
 
-    // todo: No se si los test se hacen así
+    // todo No se si los test se hacen así
     @Test
     void shouldAddNewSavingsAccount() throws Exception {
 
