@@ -16,7 +16,7 @@ public class AccountHolder extends User {
     @NotNull
     private LocalDate dateOfBirth;
     @NotNull
-    @Embedded // String name, Integer numberHouse, String city, Integer zipCode
+    @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "name", column = @Column(name = "ADDRESS_NAME")),
             @AttributeOverride(name = "numberHouse", column = @Column(name = "ADDRESS_NUMBER_HOUSE")),

@@ -1,8 +1,9 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.controller.users;
 
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.dtos.AccountDTO;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.dtos.TransactionDTO;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Account;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transfers.Transfer;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transfers.Transaction;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.accounts.*;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.users.AccountHolderService;
@@ -59,7 +60,7 @@ public class AccountHolderController {
     // Método para obtener el balance de una cuenta mediante ID
     @GetMapping("/get-balance/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BigDecimal getBalance(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) { // todo: manu dice que el id sobra
+    public BigDecimal getBalance(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         return accountService.getBalance(id, userDetails);
     }
 
@@ -77,25 +78,18 @@ public class AccountHolderController {
         return accountService.setBalance(accountDTO);
     }
 
+    // POST -> localhost:8080/account-holder/send-money/1
     /*
-
-     El usuario debe proporcionar el nombre del propietario principal o secundario y la identificación de la cuenta que
-     debe recibir la transferencia.
-
      {
-        "namePrimaryOwner": "Raul",
-        "nameSecondaryOwner": null,
-        "idRecipientAccount: 1,
-        "balance": 500
+        "idRecipientAccount": 3,
+        "balance": 500.0
      }
-
     */
-
     //Método para transferir dinero de una cuenta a otra cuenta
     @PostMapping("/send-money/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void sendMoney(@PathVariable Long id, @RequestBody Transfer transfer) {
-        accountService.sendMoney(id, transfer);
+    public TransactionDTO sendMoney(@PathVariable Long id, @RequestBody Transaction transaction, @AuthenticationPrincipal UserDetails userDetails) throws Exception {
+        return accountService.sendMoney(id, transaction, userDetails);
     }
 
 }

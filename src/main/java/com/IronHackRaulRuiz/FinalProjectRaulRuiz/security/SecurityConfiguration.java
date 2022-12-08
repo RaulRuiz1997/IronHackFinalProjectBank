@@ -32,27 +32,12 @@ public class SecurityConfiguration {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
-        // ---ADMINS---
-        // Admins should be able to access the balance for any account and to modify it.
-
-        // ---ACCOUNT HOLDERS---
-        //AccountHolders should be able to access their own account balance
-        // Account holders should be able to transfer money from any of their accounts to any other account (regardless of owner).
-        // The transfer should only be processed if the account has sufficient funds. The user must provide the Primary or Secondary owner’s name and the id of the account that should receive the transfer.
-
-        //---THIRD-PARTY USERS---
-        //There must be a way for third-party users to receive and send money to other accounts.
-        //Third-party users must be added to the database by an admin.
-        //In order to receive and send money, Third-Party Users must provide their hashed key in the header of the HTTP request. They also must provide the amount, the Account id and the account secret key.
-
         httpSecurity.httpBasic();
 
-        // todo: Mirar si los admins también tienen que tener HttpMethod.POST, PUT, PATCH, DELETE (SI, PONER TODOS)
-        // todo: El usuario Jaume puede añadir account-users, porque? El get all no puede pero añadir si wtf
         httpSecurity.authorizeHttpRequests()
 
                 .requestMatchers(HttpMethod.GET, "/account-holder/get-balance/**").hasAnyRole("ACCOUNT-HOLDER", "ADMIN")
-                .requestMatchers(HttpMethod.GET, "/account-holder/send-money").hasRole("ACCOUNT-HOLDER")
+                .requestMatchers(HttpMethod.POST, "/account-holder/send-money/**").hasAnyRole("ACCOUNT-HOLDER", "ADMIN")
 
                 .requestMatchers(HttpMethod.GET, "/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")

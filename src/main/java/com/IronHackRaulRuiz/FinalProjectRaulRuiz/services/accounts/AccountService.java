@@ -1,12 +1,15 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.accounts;
 
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.dtos.AccountDTO;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.dtos.TransactionDTO;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Account;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.roles.Role;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transfers.Transfer;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transfers.Transaction;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.AccountRepository;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.transactions.TransactionRepository;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.AccountHolderRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +29,9 @@ public class AccountService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    TransactionRepository transactionRepository;
+
     public List<Account> findAll() {
         return accountRepository.findAll();
     }
@@ -33,7 +39,7 @@ public class AccountService {
     public BigDecimal getBalance(Long idAccount, UserDetails userDetails) {
 
         Account account;
-        String name;
+        String nameUser;
         boolean isAdmin = false;
 
         // Obtenemos el usuario para saber si es ADMIN o no
@@ -45,7 +51,7 @@ public class AccountService {
         }
 
         // Obtenemos el nombre del usuario
-        name = userDetails.getUsername();
+        nameUser = userDetails.getUsername();
 
         if (accountRepository.findById(idAccount).isPresent()) {
 
@@ -55,8 +61,8 @@ public class AccountService {
             if (account.getSecondaryOwner() != null) {
 
                 // Comprobamos que el usuario que accede a la cuenta es: Primary Owner o Secondary Owner o Admin
-                if (name.equals(account.getPrimaryOwner().getName())
-                        || name.equals(account.getSecondaryOwner().getName())
+                if (nameUser.equals(account.getPrimaryOwner().getName())
+                        || nameUser.equals(account.getSecondaryOwner().getName())
                         || isAdmin) {
 
                     return account.getBalance();
@@ -70,7 +76,7 @@ public class AccountService {
             } else {
 
                 // Comprobamos que el usuario que accede a la cuenta es: Primary Owner o Admin
-                if (name.equals(account.getPrimaryOwner().getName())
+                if (nameUser.equals(account.getPrimaryOwner().getName())
                         || isAdmin) {
 
                     return account.getBalance();
@@ -108,23 +114,61 @@ public class AccountService {
 
     }
 
-    public void sendMoney(Long idSenderAccount, Transfer transfer) {
 
-        Account account;
+    public TransactionDTO sendMoney(Long idSenderAccount, Transaction transaction, UserDetails userDetails) throws Exception {
 
-        if (accountRepository.findById(idSenderAccount).isPresent()) {
+        // verificar que el userDetails el nombre sea el primary owner name o secondary owner name o admin
 
-            account = accountRepository.findById(idSenderAccount).get();
+        Account senderAccount;
+        Account recipientAccount;
+        Transaction newTransaction;
 
-            if (transfer.getNamePrimaryOwner() != null) {
+        String nameUser;
+        boolean isAdmin = false;
+
+        // Obtenemos el usuario para saber si es ADMIN o no
+        User user = userRepository.findByName(userDetails.getUsername()).get();
+
+        // Comprobamos los roles que tiene ese usuario
+        for (Role role : user.getRoles()) {
+            if (role.getRole().equals("ADMIN")) isAdmin = true;
+        }
+
+        // Obtenemos el nombre del usuario
+        nameUser = userDetails.getUsername();
+
+        // Comprobamos que los IDs de las cuentas emisoras y remitente existan
+        if (accountRepository.findById(idSenderAccount).isPresent()
+                && accountRepository.findById(transaction.getIdRecipientAccount()).isPresent()) {
+
+            // Guardamos la cuenta emisora
+            senderAccount = accountRepository.findById(idSenderAccount).get();
+
+            // Guardamos la cuenta remitente
+            recipientAccount = accountRepository.findById(transaction.getIdRecipientAccount()).get();
+
+            // Comprobamos que el usuario que accede a la cuenta es: Primary Owner o Secondary Owner o Admin
+            if (senderAccount.getPrimaryOwner().getName().equals(nameUser)
+                    || senderAccount.getSecondaryOwner().getName().equals(nameUser)
+                    || isAdmin) {
 
                 // Si tenemos fondos suficientes ejecutamos la transferencia
-                if (account.getBalance().compareTo(transfer.getBalance()) >= 0) {
+                if (senderAccount.getBalance().compareTo(transaction.getBalance()) >= 0) {
 
-                    // Restamos el balance a la cuenta remitente
+                    // Restamos el balance a la cuenta remitente (Restamos la cantidad que tenemos + el dinero de la transferencia)
+                    senderAccount.setBalance(senderAccount.getBalance().subtract(transaction.getBalance()));
 
-                    // Sumamos el balance a la cuenta destinatario
+                    // Sumamos el balance a la cuenta destinatario (Sumamos la cantidad que tenemos + el dinero de la transferencia)
+                    recipientAccount.setBalance(recipientAccount.getBalance().add(transaction.getBalance()));
 
+                    // Guardamos en la BBDD las cuentas con sus balance actualizados
+                    accountRepository.save(senderAccount);
+
+                    accountRepository.save(recipientAccount);
+
+                    newTransaction = new Transaction(idSenderAccount, transaction.getIdRecipientAccount(), transaction.getNameRecipientOwner(), transaction.getBalance());
+
+                    return new TransactionDTO(transactionRepository.save(newTransaction).getId(), transaction.getBalance(), senderAccount.getBalance());
 
                 } else {
 
@@ -132,17 +176,16 @@ public class AccountService {
 
                 }
 
-                return;
+            } else {
+
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuario no permitido");
 
             }
 
-            if (transfer.getNameSecondaryOwner() != null) {
 
+        } else {
 
-
-                return;
-
-            }
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "ID no encontrado");
 
         }
 
