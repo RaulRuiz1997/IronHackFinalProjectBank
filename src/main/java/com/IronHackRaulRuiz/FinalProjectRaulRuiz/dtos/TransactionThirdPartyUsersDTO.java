@@ -13,12 +13,6 @@ public class TransactionThirdPartyUsersDTO {
     public TransactionThirdPartyUsersDTO() {
     }
 
-    /*public TransactionThirdPartyUsersDTO(BigDecimal amount, Long accountId, String secretKey) {
-        this.amount = amount;
-        this.accountId = accountId;
-        this.secretKey = secretKey;
-    }*/
-
     public TransactionThirdPartyUsersDTO(BigDecimal amount, Long idAffectedAccount, BigDecimal newBalance) {
         this.amount = amount;
         this.accountId = idAffectedAccount;

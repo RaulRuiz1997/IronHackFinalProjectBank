@@ -15,8 +15,6 @@ public class Transaction {
     private String nameRecipientOwner;
     private BigDecimal balance;
 
-    // id cuenta envia, id cuenta que recibe, nombre del que recibe o nombre del secundario que recibe y la cantidad
-
     public Transaction() {
     }
 

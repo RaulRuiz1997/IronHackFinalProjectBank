@@ -85,15 +85,11 @@ public class FinalProjectRaulRuizApplication implements CommandLineRunner {
         roleRepository.save(new Role("THIRD-PARTY-USER", userAlex));
         roleRepository.save(new Role("THIRD-PARTY-USER", userCristian));
 
-        Savings savingAccount = adminRaul.createSavingAccount(new BigDecimal("21500.00"), accountHolderSavingsAccount, accountHolderCreditCardAccount, StatusAccount.ACTIVE, new BigDecimal("999.0"), "c1n90n8", new BigDecimal("0.2"));
+        Savings savingAccount = new Savings(new BigDecimal("21500.00"), accountHolderSavingsAccount, accountHolderCreditCardAccount, StatusAccount.ACTIVE, new BigDecimal("999.0"), "c1n90n8", new BigDecimal("0.2"));
 
-        CreditCard creditCardAccount = adminRaul.createCreditCardAccount(new BigDecimal("914214.2"), accountHolderCreditCardAccount, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
+        CreditCard creditCardAccount = new CreditCard(new BigDecimal("914214.2"), accountHolderCreditCardAccount, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
 
-        Checking checkingAccount = adminRaul.createCheckingAccount(new BigDecimal("7500.2"), accountHolderCheckingAccount, null, StatusAccount.FROZEN, 2, new BigDecimal("0.2"), "01101010100H");
-
-        //accountHolderRepository.save(accountHolderSavingsAccount);
-        //accountHolderRepository.save(accountHolderCreditCardAccount);
-        //accountHolderRepository.save(accountHolderCheckingAccount);
+        Checking checkingAccount = new Checking(new BigDecimal("7500.2"), accountHolderCheckingAccount, null, StatusAccount.FROZEN, "01101010100H");
 
         savingsRepository.save(savingAccount);
 

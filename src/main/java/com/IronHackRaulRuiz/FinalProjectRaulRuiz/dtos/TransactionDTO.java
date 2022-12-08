@@ -10,8 +10,6 @@ import java.math.BigDecimal;
 @Entity
 public class TransactionDTO {
 
-    // devolver id de la transferencia, el dinero enviado, el balance actualizado de la cuenta emisora (DTO)
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

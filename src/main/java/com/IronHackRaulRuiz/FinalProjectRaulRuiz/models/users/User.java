@@ -20,13 +20,6 @@ public abstract class User {
     private String name;
     @JsonIgnore
     private String password;
-
-
-
-    // todo: que es el FetchType.EAGER?
-
-
-
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Role> roles = new HashSet<>();
@@ -34,11 +27,6 @@ public abstract class User {
     public User() {
     }
 
-    public User(String name) {
-        this.name = name;
-    }
-
-    // todo: No se si hace falta este constructor
     public User(String name, String password) {
         this.name = name;
         this.password = password;

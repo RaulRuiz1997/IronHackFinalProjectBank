@@ -13,7 +13,6 @@ import org.springframework.security.web.*;
 @EnableGlobalAuthentication
 public class SecurityConfiguration {
 
-    // todo: estos 3 metodos se tienen que usar en algun lado?
     @Bean
     public PasswordEncoder passwordEncoder() {
 
@@ -28,7 +27,6 @@ public class SecurityConfiguration {
 
     }
 
-    // todo: No se si esto esta bien
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 

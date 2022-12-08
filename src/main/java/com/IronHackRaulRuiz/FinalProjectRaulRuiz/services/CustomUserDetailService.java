@@ -17,10 +17,8 @@ public class CustomUserDetailService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
-    // @AuthenticationPrincipal buscar
-
     // Spring carga este método cuando te loggeas
-    // El nombre de cada usuario debe ser unico
+    // El nombre de cada usuario debe ser único
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 

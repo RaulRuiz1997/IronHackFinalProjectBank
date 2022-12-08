@@ -9,7 +9,6 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.StudentChecking;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.roles.Role;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transfers.Transaction;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.ThirdParty;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.AccountRepository;
@@ -17,7 +16,6 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingR
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.StudentCheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.transactions.TransactionRepository;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.AccountHolderRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.ThirdPartyRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

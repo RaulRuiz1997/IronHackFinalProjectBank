@@ -14,8 +14,6 @@ import java.util.List;
 @RequestMapping("/checking")
 public class CheckingController {
 
-    // todo: los test de los controller tienen que ser con MockMvc
-
     @Autowired
     CheckingService checkingService;
 

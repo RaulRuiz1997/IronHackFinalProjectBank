@@ -1,7 +1,6 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.controller.accounts;
 
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.CreditCard;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.accounts.CreditCardService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

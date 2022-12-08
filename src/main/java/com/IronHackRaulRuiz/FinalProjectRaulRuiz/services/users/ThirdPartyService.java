@@ -7,7 +7,6 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.ThirdPartyRe
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;

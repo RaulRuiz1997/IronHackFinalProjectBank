@@ -76,8 +76,6 @@ public class CreditCard extends Account {
 
     }
 
-    // todo: preguntar esto con los profes, lo he hecho porque en el enunciado dice, cuando se accede al saldo, determinar
-    //  si ha pasado un mes, y las únicas veces que se accede al saldo es en los getters y setters
     @Override
     public BigDecimal getBalance() {
 
@@ -96,9 +94,6 @@ public class CreditCard extends Account {
 
     }
 
-    // todo: mirar esto con los profes
-    //  creo que esta bien, hacer un test en CreditCardRepositoryTest de este método checkInterestRate()
-    //  tiene que ser publica o privada? si es privada no puedo hacer test
     private BigDecimal checkInterestRate(BigDecimal balance) {
 
         Period period = Period.between(getLastInterestApplied(), LocalDate.now());

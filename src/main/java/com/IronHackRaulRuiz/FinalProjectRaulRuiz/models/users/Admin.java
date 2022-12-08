@@ -13,8 +13,6 @@ import java.math.BigDecimal;
 @PrimaryKeyJoinColumn(name = "id")
 public class Admin extends User {
 
-    // todo: OJO, ESTOS METODOS SON LOGICA DEL SERVICE
-
     public Admin() {
     }
 
@@ -22,13 +20,10 @@ public class Admin extends User {
         super(name, password);
     }
 
-    // todo: Mirar esto porque le tengo que pasar por argumentos todos los parámetros del constructor como hice pasándole el accountHolder, no?
-    public Savings createSavingAccount(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, BigDecimal minimumBalance, String secretKey,
+    /*public Savings createSavingAccount(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status, BigDecimal minimumBalance, String secretKey,
                                        BigDecimal interestRate) {
 
         Savings savingAccount = new Savings(balance, primaryOwner, secondaryOwner, status, minimumBalance, secretKey, interestRate);
-
-        // todo: devolver el saving account de la BBDD, esta logica va en el service, no aqui
 
         return savingAccount;
 
@@ -48,6 +43,6 @@ public class Admin extends User {
 
         return checkingAccount;
 
-    }
+    }*/
 
 }

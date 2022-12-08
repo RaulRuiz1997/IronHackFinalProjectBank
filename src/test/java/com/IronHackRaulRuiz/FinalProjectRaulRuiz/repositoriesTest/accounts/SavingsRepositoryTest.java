@@ -39,7 +39,7 @@ public class SavingsRepositoryTest {
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
+        Savings savingAccount = new Savings(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         accountHolderRepository.save(accountHolderRaul);
 
@@ -83,7 +83,7 @@ public class SavingsRepositoryTest {
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul2", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
+        Savings savingAccount = new Savings(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         accountHolderRepository.save(accountHolderRaul);
 
@@ -107,7 +107,7 @@ public class SavingsRepositoryTest {
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul3", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
+        Savings savingAccount = new Savings(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         // Seteamos el interestRate por debajo del mínimo permitido, entonces lo pondrá al mínimo en vez del que le intentan meter
         savingAccount.setInterestRate(new BigDecimal("-1.0"));
@@ -134,7 +134,7 @@ public class SavingsRepositoryTest {
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul4", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
+        Savings savingAccount = new Savings(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         // Seteamos el interestRate por encima del máximo permitido, entonces lo pondrá al máximo en vez del que le intentan meter
         savingAccount.setInterestRate(new BigDecimal("0.6"));
@@ -161,7 +161,7 @@ public class SavingsRepositoryTest {
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul5", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
+        Savings savingAccount = new Savings(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         // Seteamos el balance mínimo por debajo del mínimo permitido, entonces lo pondrá al mínimo en vez del que le intentan meter
         savingAccount.setMinimumBalance(new BigDecimal("90.0"));
@@ -188,7 +188,7 @@ public class SavingsRepositoryTest {
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul6", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
+        Savings savingAccount = new Savings(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         // Seteamos el balance máximo por encima del máximo permitido, entonces lo pondrá al máximo en vez del que le intentan meter
         savingAccount.setMinimumBalance(new BigDecimal("1100.0"));
@@ -214,7 +214,7 @@ public class SavingsRepositoryTest {
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul7", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        Savings savingAccount = admin.createSavingAccount(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
+        Savings savingAccount = new Savings(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         accountHolderRepository.save(accountHolderRaul);
 
@@ -224,6 +224,7 @@ public class SavingsRepositoryTest {
 
             Savings savingAccountNew = savingsRepository.findById(savingAccount.getId()).get();
 
+            // todo: solucionar este fallo
             //assertEquals(savingAccountNew.getBalance(), savingAccountNew.checkInterestRate(savingAccountNew.getBalance()));
 
         }

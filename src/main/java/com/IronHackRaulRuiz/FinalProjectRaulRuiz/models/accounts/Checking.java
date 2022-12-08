@@ -27,8 +27,6 @@ public class Checking extends Account {
         setSecretKey(secretKey);
     }
 
-    // todo: Según alex, esta lógica debería estar en un nuevo método que se hace en las transferencias
-
     // Si el balance es menos que el minimum balance, le aplicamos el penalty fee
     @Override
     public void setBalance(BigDecimal balance, BigDecimal MINIMUM_BALANCE) {

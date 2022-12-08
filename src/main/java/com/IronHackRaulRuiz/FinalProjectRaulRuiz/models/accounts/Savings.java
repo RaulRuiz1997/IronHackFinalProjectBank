@@ -23,7 +23,7 @@ public class Savings extends Account {
     private static final BigDecimal MINIMUM_BALANCE2 = new BigDecimal("100.0");
 
     @NotNull
-    private BigDecimal minimumBalance = MINIMUM_BALANCE2; // todo: mirar esto que no me vale son el 2 al final
+    private BigDecimal minimumBalance = MINIMUM_BALANCE2;
     @NotNull
     private String secretKey;
     @NotNull
@@ -60,9 +60,6 @@ public class Savings extends Account {
 
     }
 
-    // todo: preguntar esto con los profes, lo he hecho porque en el enunciado dice, cuando se accede al saldo, determinar
-    //  si ha pasado un año, y las únicas veces que se accede al saldo es en los getters y setters
-    //  PD: Ahora me peta los test de SavingsRepositoryTest pero el CreditCardRepositoryTest NO
     @Override
     public BigDecimal getBalance() {
         return checkInterestRate(super.getBalance());
@@ -87,10 +84,6 @@ public class Savings extends Account {
 
     }
 
-    //  todo: hacer un test en SavingTest de este método getBalance()
-
-
-    // Mirar @Schedulle
     private BigDecimal checkInterestRate(BigDecimal balance) {
 
         Period period = Period.between(getLastInterestApplied(), LocalDate.now());
