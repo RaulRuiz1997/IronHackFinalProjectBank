@@ -1,6 +1,8 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.controller.users;
 
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.dtos.AccountDTO;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Account;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transfers.Transfer;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.accounts.*;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.users.AccountHolderService;
@@ -53,33 +55,47 @@ public class AccountHolderController {
         return accountHolderService.createAccountHolder(accountHolder);
     }
 
-    // Admins should be able to access the balance for any account and to modify it.
     // GET -> localhost:8080/account-holder/get-balance/1
     // Método para obtener el balance de una cuenta mediante ID
-    // @AuthenticationPrincipal UserDetails userDetails -> Aquí tenemos el usuario y la contra del usuario que se ha logeado
     @GetMapping("/get-balance/{id}")
     @ResponseStatus(HttpStatus.OK)
     public BigDecimal getBalance(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) { // todo: manu dice que el id sobra
         return accountService.getBalance(id, userDetails);
     }
 
-    // PATCH -> localhost:8080/account-holder/set-balance/1
+    // PATCH -> localhost:8080/account-holder/set-balance
     /*
-
+    {
+        "id": 2,
+        "balance": 10000.20
+    }
     */
-    // Método para actualizar el balance de una cuenta mediante su ID
-    @PatchMapping("/set-balance/{id}")
+    // Método para actualizar el balance de una cuenta mediante su ID (Solo pueden los Admins)
+    @PatchMapping("/set-balance")
     @ResponseStatus(HttpStatus.OK)
-    public Account setBalance(@PathVariable Long id, @RequestBody BigDecimal balance) {
-        return accountService.setBalance(id, balance);
+    public Account setBalance(@RequestBody AccountDTO accountDTO) {
+        return accountService.setBalance(accountDTO);
     }
 
-    //Método para transferir de una cuenta a otra cuenta
-    // todo: No se si esta bien, si es un patch, si tiene que devolver algo o no, si le tengo que enviar un request body
-    /*@PatchMapping("/send-money/{id}")
+    /*
+
+     El usuario debe proporcionar el nombre del propietario principal o secundario y la identificación de la cuenta que
+     debe recibir la transferencia.
+
+     {
+        "namePrimaryOwner": "Raul",
+        "nameSecondaryOwner": null,
+        "idRecipientAccount: 1,
+        "balance": 500
+     }
+
+    */
+
+    //Método para transferir dinero de una cuenta a otra cuenta
+    @PostMapping("/send-money/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void sendMoney(@PathVariable Long id, @RequestBody BigDecimal balance) {
-        accountService.sendMoney();
-    }*/
+    public void sendMoney(@PathVariable Long id, @RequestBody Transfer transfer) {
+        accountService.sendMoney(id, transfer);
+    }
 
 }

@@ -1,7 +1,9 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.accounts;
 
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.dtos.AccountDTO;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Account;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.roles.Role;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transfers.Transfer;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.AccountRepository;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class AccountService {
@@ -22,6 +25,10 @@ public class AccountService {
 
     @Autowired
     UserRepository userRepository;
+
+    public List<Account> findAll() {
+        return accountRepository.findAll();
+    }
 
     public BigDecimal getBalance(Long idAccount, UserDetails userDetails) {
 
@@ -82,22 +89,62 @@ public class AccountService {
 
     }
 
-    public Account setBalance(Long idAccount, BigDecimal balance) {
+    public Account setBalance(AccountDTO accountDTO) {
 
         Account account;
 
-        if (accountRepository.findById(idAccount).isPresent()) {
+        if (accountRepository.findById(accountDTO.getId()).isPresent()) {
 
-            account = accountRepository.findById(idAccount).get();
+            account = accountRepository.findById(accountDTO.getId()).get();
 
             // Cambiamos el balance que nos llega por parámetro
-            account.setBalance(balance);
+            account.setBalance(accountDTO.getBalance());
 
             return accountRepository.save(account);
 
         }
 
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ID no encontrada");
+
+    }
+
+    public void sendMoney(Long idSenderAccount, Transfer transfer) {
+
+        Account account;
+
+        if (accountRepository.findById(idSenderAccount).isPresent()) {
+
+            account = accountRepository.findById(idSenderAccount).get();
+
+            if (transfer.getNamePrimaryOwner() != null) {
+
+                // Si tenemos fondos suficientes ejecutamos la transferencia
+                if (account.getBalance().compareTo(transfer.getBalance()) >= 0) {
+
+                    // Restamos el balance a la cuenta remitente
+
+                    // Sumamos el balance a la cuenta destinatario
+
+
+                } else {
+
+                    throw new ResponseStatusException(HttpStatus.CONFLICT, "No hay fondos suficientes");
+
+                }
+
+                return;
+
+            }
+
+            if (transfer.getNameSecondaryOwner() != null) {
+
+
+
+                return;
+
+            }
+
+        }
 
     }
 

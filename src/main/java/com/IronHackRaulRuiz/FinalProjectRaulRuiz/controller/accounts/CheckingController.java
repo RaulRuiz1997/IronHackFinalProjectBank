@@ -113,7 +113,7 @@ public class CheckingController {
         "balance": 500.0,
         "primaryOwner": {
             "id": 3,
-            "name": "Phillip (C.A.)",
+            "name": "Jose (C.A.)",
             "dateOfBirth": "1982-02-14",
             "primaryAddress": {
                 "name": "Grove Street",
