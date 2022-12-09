@@ -1,4 +1,4 @@
-package com.IronHackRaulRuiz.FinalProjectRaulRuiz.services;
+package com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.customUserDetail;
 
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;

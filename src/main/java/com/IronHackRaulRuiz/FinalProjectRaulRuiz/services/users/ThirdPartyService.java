@@ -22,7 +22,7 @@ public class ThirdPartyService {
     @Autowired
     UserRepository userRepository;
 
-    public ThirdParty createThirdPartyUser(ThirdParty thirdPartyUser, UserDetails userDetails) {
+    /*public ThirdParty createThirdPartyUser(ThirdParty thirdPartyUser, UserDetails userDetails) {
 
         boolean isAdmin = false;
 
@@ -44,6 +44,10 @@ public class ThirdPartyService {
 
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "El usuario no es un Admin");
 
+    }*/
+
+    public ThirdParty createThirdPartyUser(ThirdParty thirdPartyUser) {
+        return thirdPartyRepository.save(thirdPartyUser);
     }
 
     public List<ThirdParty> findAll() {

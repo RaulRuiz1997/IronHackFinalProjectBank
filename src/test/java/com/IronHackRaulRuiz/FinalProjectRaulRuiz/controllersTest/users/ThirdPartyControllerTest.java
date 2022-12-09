@@ -24,9 +24,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -67,6 +64,7 @@ public class ThirdPartyControllerTest {
 
     }
 
+    // Método para crear Third Party Users (Solo pueden los Admins)
     @Test
     void shouldCreateThirdPartyUser() throws Exception {
 
@@ -85,10 +83,22 @@ public class ThirdPartyControllerTest {
 
     }
 
+    // Método para transferir dinero de una cuenta a otra cuenta
     @Test
-    void shouldMoveMoney() {
+    void shouldMoveMoney() throws Exception {
 
+        ThirdParty thirdParty = new ThirdParty("TripleH", "password", "HK-2");
 
+        thirdPartyRepository.save(thirdParty);
+
+        String body = objectMapper.writeValueAsString(thirdParty);
+
+        MvcResult result = mockMvc.perform(post("/third-party/move-money")
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("TripleH"));
 
     }
 

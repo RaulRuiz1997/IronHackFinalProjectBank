@@ -89,7 +89,7 @@ public class FinalProjectRaulRuizApplication implements CommandLineRunner {
 
         CreditCard creditCardAccount = new CreditCard(new BigDecimal("914214.2"), accountHolderCreditCardAccount, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
 
-        Checking checkingAccount = new Checking(new BigDecimal("7500.2"), accountHolderCheckingAccount, null, StatusAccount.FROZEN, "01101010100H");
+        Checking checkingAccount = new Checking(new BigDecimal("1000.0"), accountHolderCheckingAccount, null, StatusAccount.FROZEN, "SECRET KEY");
 
         savingsRepository.save(savingAccount);
 

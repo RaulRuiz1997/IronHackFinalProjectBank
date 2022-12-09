@@ -251,19 +251,9 @@ public class AccountService {
                         // Verificamos que la secret key proporcionada sea la misma que la que tengamos en la cuenta
                         if (checkingAccount.getSecretKey().equals(transaction.getSecretKey())) {
 
-                            // todo mirar esta mierda
-
                             // Si el valor "amount" que le hemos pasado es positivo le sumamos ese amount al balance de la cuenta
                             // Si es negativo, se lo restamos
-                            if (transaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
-
-                                checkingAccount.setBalance(checkingAccount.getBalance().add(transaction.getAmount()));
-
-                            } else {
-
-                                checkingAccount.setBalance(checkingAccount.getBalance().subtract(transaction.getAmount()));
-
-                            }
+                            checkingAccount.setBalance(checkingAccount.getBalance().add(transaction.getAmount()));
 
                             checkingRepository.save(checkingAccount);
 
@@ -284,15 +274,7 @@ public class AccountService {
 
                             // Si el valor "amount" que le hemos pasado es positivo le sumamos ese amount al balance de la cuenta
                             // Si es negativo, se lo restamos
-                            if (transaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
-
-                                studentCheckingAccount.setBalance(studentCheckingAccount.getBalance().add(transaction.getAmount()));
-
-                            } else {
-
-                                studentCheckingAccount.setBalance(studentCheckingAccount.getBalance().subtract(transaction.getAmount()));
-
-                            }
+                            studentCheckingAccount.setBalance(studentCheckingAccount.getBalance().add(transaction.getAmount()));
 
                             studentCheckingRepository.save(studentCheckingAccount);
 
@@ -314,15 +296,7 @@ public class AccountService {
 
                             // Si el valor "amount" que le hemos pasado es positivo le sumamos ese amount al balance de la cuenta
                             // Si es negativo, se lo restamos
-                            if (transaction.getAmount().compareTo(BigDecimal.ZERO) > 0) {
-
-                                savingsAccount.setBalance(savingsAccount.getBalance().add(transaction.getAmount()));
-
-                            } else {
-
-                                savingsAccount.setBalance(savingsAccount.getBalance().subtract(transaction.getAmount()));
-
-                            }
+                            savingsAccount.setBalance(savingsAccount.getBalance().subtract(transaction.getAmount()));
 
                             savingsRepository.save(savingsAccount);
 

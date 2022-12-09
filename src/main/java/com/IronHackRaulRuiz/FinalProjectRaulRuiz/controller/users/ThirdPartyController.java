@@ -38,20 +38,26 @@ public class ThirdPartyController {
         "hashedKey": "HK-3"
     }
     */
-    // Método para crear Third Party Users
-    @PostMapping("/add")
+    // Método para crear Third Party Users (Solo pueden los Admins)
+    /*@PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public ThirdParty createThirdPartyUser(@RequestBody @Valid ThirdParty thirdPartyUser, @AuthenticationPrincipal UserDetails userDetails) {
         return thirdPartyService.createThirdPartyUser(thirdPartyUser, userDetails);
+    }*/
+
+    @PostMapping("/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ThirdParty createThirdPartyUser(@RequestBody @Valid ThirdParty thirdPartyUser) {
+        return thirdPartyService.createThirdPartyUser(thirdPartyUser);
     }
 
-    // POST -> localhost:8080/third-party/send-money
+    // POST -> localhost:8080/third-party/move-money
     /*
      {
 
         "accountId": 3,
         "amount": 200,
-        "secretKey": "Secret Key"
+        "secretKey": "SECRET KEY"
 
     }
     */
