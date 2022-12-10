@@ -20,4 +20,15 @@ public class Admin extends User {
         super(name, password);
     }
 
+    @Override
+    public String toString() {
+
+        return "Admin{" +
+                "id=" + getId() +
+                "name=" + getName() +
+                "password=" + getPassword() +
+                "}";
+
+    }
+
 }

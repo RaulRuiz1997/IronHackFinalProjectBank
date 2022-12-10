@@ -1,9 +1,10 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.controllersTest.users;
 
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.ThirdParty;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.AdminRepository;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.RoleRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.ThirdPartyRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -39,19 +41,45 @@ public class ThirdPartyControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    RoleRepository roleRepository;
+
+    private boolean firstTime = true;
+
     @BeforeEach
     void setUp() {
 
+        roleRepository.deleteAll();
+        userRepository.deleteAll();
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        objectMapper.findAndRegisterModules();
+
+    }
+
+
+    @Test
+    @WithMockUser(username = "user1", password = "pwd")
+    void createUser() throws Exception {
+
+        String body = objectMapper.writeValueAsString(new Admin("administrador","1234"));
+        System.out.println(body);
+        MvcResult mvcResult = mockMvc.perform(post("/admin/")
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
 
     }
 
     // Método para crear Third Party Users (Solo pueden los Admins)
     @Test
+    @WithMockUser(username = "administrador", password = "1234")
     void shouldCreateThirdPartyUser() throws Exception {
 
-        ThirdParty thirdParty = new ThirdParty("name", "password", "HK-2");
-
+        ThirdParty thirdParty = new ThirdParty("ThirdPartyUser", "password", "HK-2");
         thirdPartyRepository.save(thirdParty);
 
         String body = objectMapper.writeValueAsString(thirdParty);
@@ -65,14 +93,12 @@ public class ThirdPartyControllerTest {
 
     }
 
-    // todo: esta solución te la tiene que dar Jose porque usas un AuthenticationPrincipal
-
     // Método para transferir dinero de una cuenta a otra cuenta
     @Test
+    @WithMockUser(username = "ThirdPartyUser", password = "password")
     void shouldMoveMoney() throws Exception {
 
-        ThirdParty thirdParty = new ThirdParty("TripleH", "password", "HK-2");
-
+        ThirdParty thirdParty = new ThirdParty("ThirdPartyUser", "password", "HK-2");
         thirdPartyRepository.save(thirdParty);
 
         String body = objectMapper.writeValueAsString(thirdParty);
@@ -83,7 +109,7 @@ public class ThirdPartyControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("TripleH"));
+        assertTrue(result.getResponse().getContentAsString().contains("ThirdPartyUser"));
 
     }
 
