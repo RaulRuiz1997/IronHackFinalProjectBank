@@ -3,12 +3,14 @@ package com.IronHackRaulRuiz.FinalProjectRaulRuiz.controllersTest.users;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Checking;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.CreditCard;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.StudentChecking;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.StudentCheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,10 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class AdminControllerTest {
 
-    // todo: NO HACE FALTA HACER LOS TEST DE: SAVINGSREPOSITORY, CREDITCARDREPOSITORY Y CHECKINGREPOSITORY
-
-    // todo: Para ir haciendo todos los test ir mirando 1 por 1 los controladores y vas testeando los métodos
-
     @Autowired
     private WebApplicationContext context;
 
@@ -54,6 +52,9 @@ public class AdminControllerTest {
     @Autowired
     CheckingRepository checkingRepository;
 
+    @Autowired
+    StudentCheckingRepository studentCheckingRepository;
+
     private MockMvc mockMvc;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -65,6 +66,7 @@ public class AdminControllerTest {
 
     }
 
+    // Test para crear una Savings Account siendo Admin
     @Test
     void shouldAddNewSavingsAccount() throws Exception {
 
@@ -89,6 +91,7 @@ public class AdminControllerTest {
 
     }
 
+    // Test para crear una Credit Card Account siendo Admin
     @Test
     void shouldAddNewCreditCardAccount() throws Exception {
 
@@ -113,6 +116,7 @@ public class AdminControllerTest {
 
     }
 
+    // Test para crear una Checking Account siendo Admin
     @Test
     void shouldAddNewCheckingAccount() throws Exception {
 
@@ -134,6 +138,32 @@ public class AdminControllerTest {
                 .andExpect(status().isCreated()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains("RAUL PRUEBA"));
+
+    }
+
+    // Test para crear una Student Checking Account siendo Admin
+    @Test
+    void shouldAddNewStudentCheckingAccount() throws Exception {
+
+        Address address = new Address("C/ Falsa", 123, "BCN", 8100);
+
+        // El Account Holder es menor a 24 años
+        AccountHolder accountHolder = new AccountHolder("ESTUDIANTE", passwordEncoder.encode("peter"), LocalDate.of(2010, 12, 19), address, null);
+
+        StudentChecking studentCheckingAccount = new StudentChecking(new BigDecimal("7500.2"), accountHolder, null, StatusAccount.FROZEN, "01101010100H");
+
+        userRepository.save(accountHolder);
+
+        studentCheckingRepository.save(studentCheckingAccount);
+
+        String body = objectMapper.writeValueAsString(studentCheckingAccount);
+
+        MvcResult result = mockMvc.perform(post("/admin/add-checking")
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated()).andReturn();
+
+        assertTrue(result.getResponse().getContentAsString().contains("ESTUDIANTE"));
 
     }
 

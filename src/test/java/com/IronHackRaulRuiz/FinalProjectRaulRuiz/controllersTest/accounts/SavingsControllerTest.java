@@ -1,33 +1,25 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.controllersTest.accounts;
 
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.CreditCard;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.accounts.CreditCardService;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.accounts.SavingsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.Valid;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -61,6 +53,7 @@ public class SavingsControllerTest {
     }
 
     // GET -> /savings/id/{id}
+    // Test para encontrar una cuenta Savings por id mediante @PathVariable
     @Test
     void ShouldFindByIdPathVariable() throws Exception {
 
@@ -86,6 +79,7 @@ public class SavingsControllerTest {
     }
 
     // GET -> /savings/id?id=1
+    // Test para encontrar una cuenta Savings por id mediante @RequestParam
     @Test
     void ShouldFindByIdRequestParam() throws Exception {
 
@@ -112,6 +106,7 @@ public class SavingsControllerTest {
     }
 
     // POST -> /savings/add
+    // Test para crear una cuenta Savings
     @Test
     void ShouldCreateSavingsAccount() throws Exception {
 
@@ -137,6 +132,7 @@ public class SavingsControllerTest {
     }
 
     // PUT -> /savings/update-put
+    // Test para actualizar una cuenta Savings mediante el método HTTP PUT
     @Test
     void ShouldUpdateSavingsAccountPut() throws Exception {
 
@@ -162,6 +158,7 @@ public class SavingsControllerTest {
     }
 
     // PATCH -> /savings/update-patch
+    // Test para actualizar una cuenta Savings mediante el método HTTP PATCH
     @Test
     void ShouldUpdateSavingsAccountPatch() throws Exception {
 
@@ -187,6 +184,7 @@ public class SavingsControllerTest {
     }
 
     // DELETE -> /savings/delete/{id}
+    // Test para eliminar una cuenta Savings
     @Test
     void ShouldDeleteSavingsAccountById() throws Exception {
 

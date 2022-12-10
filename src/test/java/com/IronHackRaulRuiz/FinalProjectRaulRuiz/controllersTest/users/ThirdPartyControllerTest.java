@@ -1,17 +1,11 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.controllersTest.users;
 
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.ThirdParty;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.ThirdPartyRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.users.ThirdPartyService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,22 +30,10 @@ public class ThirdPartyControllerTest {
     private WebApplicationContext context;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    SavingsRepository savingsRepository;
-
-    @Autowired
-    CreditCardRepository creditCardRepository;
-
-    @Autowired
-    CheckingRepository checkingRepository;
-
-    @Autowired
-    ThirdPartyRepository thirdPartyRepository;
+    private ThirdPartyRepository thirdPartyRepository;
 
     private MockMvc mockMvc;
 

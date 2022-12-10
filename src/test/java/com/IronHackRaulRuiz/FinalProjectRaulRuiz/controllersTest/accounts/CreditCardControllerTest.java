@@ -7,7 +7,6 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.Valid;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +53,7 @@ public class CreditCardControllerTest {
     }
 
     // GET -> /credit-card/id/{id}
+    // Test para encontrar una cuenta Credit Card por id mediante @PathVariable
     @Test
     void ShouldFindByIdPathVariable() throws Exception {
 
@@ -79,6 +79,7 @@ public class CreditCardControllerTest {
     }
 
     // GET -> /credit-card/id?id=1
+    // Test para encontrar una cuenta Credit Card por id mediante @RequestParam
     @Test
     void ShouldFindByIdRequestParam() throws Exception {
 
@@ -105,6 +106,7 @@ public class CreditCardControllerTest {
     }
 
     // POST -> /credit-card/add
+    // Test para crear una cuenta Credit Card
     @Test
     void ShouldCreateCreditCardAccount() throws Exception {
 
@@ -130,6 +132,7 @@ public class CreditCardControllerTest {
     }
 
     // PUT -> /credit-card/update-put
+    // Test para actualizar una cuenta Credit Card mediante el método HTTP PUT
     @Test
     void ShouldUpdateCreditCardAccountPut() throws Exception {
 
@@ -155,6 +158,7 @@ public class CreditCardControllerTest {
     }
 
     // PATCH -> /credit-card/update-patch
+    // Test para actualizar una cuenta Credit Card mediante el método HTTP PATCH
     @Test
     void ShouldUpdateCreditCardAccountPatch() throws Exception {
 
@@ -180,6 +184,7 @@ public class CreditCardControllerTest {
     }
 
     // DELETE -> /credit-card/delete/{id}
+    // Test para eliminar una cuenta Credit Card
     @Test
     void ShouldDeleteCreditCardAccountById() throws Exception {
 

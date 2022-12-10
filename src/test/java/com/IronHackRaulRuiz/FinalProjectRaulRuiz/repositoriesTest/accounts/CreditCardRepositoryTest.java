@@ -4,7 +4,6 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.CreditCard;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.AccountHolderRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -29,7 +28,7 @@ public class CreditCardRepositoryTest {
 
     CreditCard creditCardAccount;
 
-    // Test para crear y guardar un Checking Account en la BBDD
+    // Test para crear y guardar un Credit Card Account en la BBDD
     @BeforeEach
     void setUp() {
 
@@ -171,10 +170,51 @@ public class CreditCardRepositoryTest {
 
     }
 
+    // Test para verificar el interest rate no esté aplicado en el método getBalance()
     @Test
-    void ShouldGetBalanceUpdated() {
+    void ShouldGetBalanceUpdatedWithoutInterestRateApplied() {
 
+        Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
+        AccountHolder accountHolderRaul = new AccountHolder("Raul5", "12345", LocalDate.of(1997, 12, 19), address, null);
+
+        CreditCard creditCardAccount = new CreditCard(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
+
+        accountHolderRaul = accountHolderRepository.save(accountHolderRaul);
+
+        creditCardRepository.save(creditCardAccount);
+
+        if (creditCardRepository.findById(accountHolderRaul.getId()).isPresent()) {
+
+            // Si pasase 1 mes debería estar aplicado el interest rate, pero como no ha pasado da el balance sin el interest rate aplicado
+            assertEquals(new BigDecimal("500.0"), creditCardAccount.getBalance());
+
+        }
+
+    }
+
+    // Test para verificar el interest rate no esté aplicado en el método setBalance()
+    @Test
+    void ShouldSetBalanceUpdatedWithoutInterestRateApplied() {
+
+        Address address = new Address("C/ Falsa", 123, "BCN", 8100);
+
+        AccountHolder accountHolderRaul = new AccountHolder("Raul5", "12345", LocalDate.of(1997, 12, 19), address, null);
+
+        CreditCard creditCardAccount = new CreditCard(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
+
+        accountHolderRaul = accountHolderRepository.save(accountHolderRaul);
+
+        creditCardAccount.setBalance(new BigDecimal("777.0"));
+
+        creditCardRepository.save(creditCardAccount);
+
+        if (creditCardRepository.findById(accountHolderRaul.getId()).isPresent()) {
+
+            // Si pasase 1 mes debería estar aplicado el interest rate, pero como no ha pasado da el balance sin el interest rate aplicado
+            assertEquals(new BigDecimal("777.0"), creditCardAccount.getBalance());
+
+        }
 
     }
 

@@ -1,17 +1,11 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.controllersTest.accounts;
 
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Checking;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.StudentChecking;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.StudentCheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.accounts.CreditCardService;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.accounts.SavingsService;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.accounts.StudentCheckingService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,6 +54,7 @@ public class StudentCheckingControllerTest {
     }
 
     // GET -> /student-checking/id/{id}
+    // Test para encontrar una cuenta Student Checking por id mediante @PathVariable
     @Test
     void ShouldFindByIdPathVariable() throws Exception {
 
@@ -86,6 +81,7 @@ public class StudentCheckingControllerTest {
     }
 
     // GET -> /student-checking/id?id=1
+    // Test para encontrar una cuenta Student Checking por id mediante @RequestParam
     @Test
     void ShouldFindByIdRequestParam() throws Exception {
 
@@ -112,6 +108,7 @@ public class StudentCheckingControllerTest {
     }
 
     // DELETE -> /student-checking/delete/{id}
+    // Test para eliminar una cuenta Student Checking
     @Test
     void ShouldDeleteStudentCheckingAccount() throws Exception {
 

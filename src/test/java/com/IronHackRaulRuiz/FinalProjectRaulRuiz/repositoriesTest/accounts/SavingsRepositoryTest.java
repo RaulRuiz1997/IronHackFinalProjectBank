@@ -4,7 +4,6 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.AccountHolderRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -18,8 +17,6 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// Según alex, testear sobretodo los controllers (las rutas de getMapping, etc...)
-
 @SpringBootTest
 public class SavingsRepositoryTest {
 
@@ -29,17 +26,17 @@ public class SavingsRepositoryTest {
     @Autowired
     AccountHolderRepository accountHolderRepository;
 
+    Savings savingAccount;
+
     // Test para crear y guardar un Saving Account en la BBDD
     @BeforeEach
     void setUp() {
-
-        Admin admin = new Admin("Admin", "1234");
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        Savings savingAccount = new Savings(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
+        savingAccount = new Savings(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
         accountHolderRepository.save(accountHolderRaul);
 
@@ -63,9 +60,9 @@ public class SavingsRepositoryTest {
 
         Savings savingAccount;
 
-        if (savingsRepository.findById(1L).isPresent()) {
+        if (savingsRepository.findById(this.savingAccount.getId()).isPresent()) {
 
-            savingAccount = savingsRepository.findById(1L).get();
+            savingAccount = savingsRepository.findById(this.savingAccount.getId()).get();
 
             assertEquals("Raul", savingAccount.getPrimaryOwner().getName());
 
@@ -76,8 +73,6 @@ public class SavingsRepositoryTest {
     // Test para verificar el size de la lista
     @Test
     void ListSizeShouldBe2() {
-
-        Admin admin = new Admin("Admin", "1234");
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
@@ -99,9 +94,7 @@ public class SavingsRepositoryTest {
 
     // Test para verificar que no se pueda meter el valor (rate) menor que el mínimo establecido (0.0025)
     @Test
-    void shouldSetRateAtMinimum() {
-
-        Admin admin = new Admin("Admin", "1234");
+    void ShouldSetRateAtMinimum() {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
@@ -126,9 +119,7 @@ public class SavingsRepositoryTest {
 
     // Test para verificar que no se pueda meter el valor (rate) mayor que el máximo establecido (0.5)
     @Test
-    void shouldSetRateAtMax() {
-
-        Admin admin = new Admin("Admin", "1234");
+    void ShouldSetRateAtMax() {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
@@ -153,9 +144,7 @@ public class SavingsRepositoryTest {
 
     // Test para verificar que no se pueda meter el valor (balance) menor que el mínimo establecido (100)
     @Test
-    void shouldSetBalanceAtMinimum() {
-
-        Admin admin = new Admin("Admin", "1234");
+    void ShouldSetBalanceAtMinimum() {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
@@ -180,9 +169,7 @@ public class SavingsRepositoryTest {
 
     // Test para verificar que no se pueda meter el valor (balance) mayor que el máximo establecido (1000)
     @Test
-    void shouldSetBalanceAtMax() {
-
-        Admin admin = new Admin("Admin", "1234");
+    void ShouldSetBalanceAtMax() {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
@@ -204,28 +191,48 @@ public class SavingsRepositoryTest {
         }
 
     }
-
+    
     @Test
-    void TestMethodInterestRate() {
-
-        Admin admin = new Admin("Admin", "1234");
+    void ShouldGetBalanceUpdatedWithoutInterestRateApplied() {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
-        AccountHolder accountHolderRaul = new AccountHolder("Raul7", "12345", LocalDate.of(1997, 12, 19), address, null);
+        AccountHolder accountHolderRaul = new AccountHolder("Raul5", "12345", LocalDate.of(1997, 12, 19), address, null);
 
         Savings savingAccount = new Savings(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
 
-        accountHolderRepository.save(accountHolderRaul);
+        accountHolderRaul = accountHolderRepository.save(accountHolderRaul);
 
         savingsRepository.save(savingAccount);
 
-        if (savingsRepository.findById(savingAccount.getId()).isPresent()) {
+        if (savingsRepository.findById(accountHolderRaul.getId()).isPresent()) {
 
-            Savings savingAccountNew = savingsRepository.findById(savingAccount.getId()).get();
+            // Si pasase 1 año debería estar aplicado el interest rate, pero como no ha pasado da el balance sin el interest rate aplicado
+            assertEquals(new BigDecimal("500.0"), savingAccount.getBalance());
 
-            // todo: solucionar este fallo
-            //assertEquals(savingAccountNew.getBalance(), savingAccountNew.checkInterestRate(savingAccountNew.getBalance()));
+        }
+
+    }
+
+    @Test
+    void ShouldSetBalanceUpdatedWithoutInterestRateApplied() {
+
+        Address address = new Address("C/ Falsa", 123, "BCN", 8100);
+
+        AccountHolder accountHolderRaul = new AccountHolder("Raul5", "12345", LocalDate.of(1997, 12, 19), address, null);
+
+        Savings savingAccount = new Savings(new BigDecimal("500.0"), accountHolderRaul, null, StatusAccount.ACTIVE, new BigDecimal("200.0"), "secretKey", new BigDecimal("0.1"));
+
+        accountHolderRaul = accountHolderRepository.save(accountHolderRaul);
+
+        savingAccount.setBalance(new BigDecimal("777.0"));
+
+        savingsRepository.save(savingAccount);
+
+        if (savingsRepository.findById(accountHolderRaul.getId()).isPresent()) {
+
+            // Si pasase 1 mes debería estar aplicado el interest rate, pero como no ha pasado da el balance sin el interest rate aplicado
+            assertEquals(new BigDecimal("777.0"), savingAccount.getBalance());
 
         }
 

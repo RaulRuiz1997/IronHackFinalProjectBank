@@ -4,7 +4,6 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Checking;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.Admin;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.AccountHolderRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -20,8 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class CheckingRepositoryTest {
-
-    // todo: si no hay metodos especificos en los repositorios, hacer testing de los CRUD (CREATE, READ, UPDATE Y DELETE)
 
     @Autowired
     CheckingRepository checkingRepository;
@@ -92,7 +89,7 @@ public class CheckingRepositoryTest {
             checkingRepository.save(checkingAccount);
 
             // Se debería haber aplicado el penalty fee de 40$
-            assertEquals(new BigDecimal("200.002"), checkingRepository.findById(checkingAccount.getId()).get().getBalance());
+            assertEquals(new BigDecimal("200.00"), checkingRepository.findById(checkingAccount.getId()).get().getBalance());
 
         } else {
 

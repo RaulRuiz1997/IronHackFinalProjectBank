@@ -5,8 +5,6 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transactions.Transaction;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.SavingsRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.users.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,6 +54,7 @@ public class AccountHolderControllerTest {
 
     // todo @AuthenticationPrincipal
     // GET -> /account-holder/get-balance/{id}
+    // Test para encontrar el balance de un Account Holder mediante ID con @AuthenticationPrincipal
     @Test
     void shouldGetBalance() throws Exception {
 
@@ -81,6 +80,7 @@ public class AccountHolderControllerTest {
     }
 
     // PATCH -> /account-holder/set-balance
+    // Test para actualizar el balance de una SavingAccount
     @Test
     void shouldSetBalance() throws Exception {
 
@@ -94,6 +94,7 @@ public class AccountHolderControllerTest {
 
         savingsRepository.save(savingAccount);
 
+        // Cambiamos el balance para comprobarlo luego
         savingAccount.setBalance(BigDecimal.valueOf(1000.0));
 
         String body = objectMapper.writeValueAsString(savingAccount);
@@ -103,14 +104,13 @@ public class AccountHolderControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
 
-        // todo esto esta bien comprobado?
         assertTrue(result.getResponse().getContentAsString().contains("\"balance\":1000.0"));
 
     }
 
     // todo @AuthenticationPrincipal
-    // todo: mirar esta prueba a ver si esta bien planteada
     // POST -> localhost:8080/account-holder/send-money/{id}
+    // Test para enviar dinero mediante una transacción
     @Test
     void shouldSendMoney() throws Exception {
 
@@ -123,7 +123,6 @@ public class AccountHolderControllerTest {
         userRepository.save(accountHolder);
 
         savingsRepository.save(savingAccount);
-
 
         Transaction transaction = new Transaction(1L, savingAccount.getId(), savingAccount.getPrimaryOwner().getName(), savingAccount.getBalance());
 
