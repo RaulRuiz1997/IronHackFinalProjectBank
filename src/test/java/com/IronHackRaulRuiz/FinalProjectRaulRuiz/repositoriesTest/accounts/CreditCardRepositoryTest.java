@@ -27,6 +27,8 @@ public class CreditCardRepositoryTest {
     @Autowired
     AccountHolderRepository accountHolderRepository;
 
+    CreditCard creditCardAccount;
+
     // Test para crear y guardar un Checking Account en la BBDD
     @BeforeEach
     void setUp() {
@@ -35,7 +37,7 @@ public class CreditCardRepositoryTest {
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        CreditCard creditCardAccount = new CreditCard(new BigDecimal("914214.2"), accountHolderRaul, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
+        creditCardAccount = new CreditCard(new BigDecimal("914214.2"), accountHolderRaul, null, StatusAccount.ACTIVE, 89523, new BigDecimal("0.015"));
 
         accountHolderRepository.save(accountHolderRaul);
 
@@ -59,9 +61,9 @@ public class CreditCardRepositoryTest {
 
         CreditCard creditCardAccount;
 
-        if (creditCardRepository.findById(1L).isPresent()) {
+        if (creditCardRepository.findById(this.creditCardAccount.getId()).isPresent()) {
 
-            creditCardAccount = creditCardRepository.findById(1L).get();
+            creditCardAccount = creditCardRepository.findById(this.creditCardAccount.getId()).get();
 
             assertEquals("Raul", creditCardAccount.getPrimaryOwner().getName());
 
@@ -166,6 +168,13 @@ public class CreditCardRepositoryTest {
             assertEquals(0.2, creditCardRepository.findById(accountHolderRaul.getId()).get().getInterestRate());
 
         }
+
+    }
+
+    @Test
+    void ShouldGetBalanceUpdated() {
+
+
 
     }
 

@@ -1,6 +1,6 @@
 package com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.transactions;
 
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transfers.Transaction;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transactions.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -18,6 +18,8 @@ public class AccountController {
     @Autowired
     AccountService accountService;
 
+    // GET -> localhost:8080/accounts/all
+    // Método para encontrar todas las cuentas
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     List<Account> getAll() {

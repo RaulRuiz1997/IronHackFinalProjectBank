@@ -8,7 +8,7 @@ import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Checking;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.StudentChecking;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.roles.Role;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transfers.Transaction;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transactions.Transaction;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.ThirdParty;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.User;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.AccountRepository;
@@ -116,7 +116,7 @@ public class AccountService {
 
     public Account setBalance(AccountDTO accountDTO) {
 
-        // No valido si son números negativos por si los admins tienen que hacer pruebas, etc
+        // No valído si son números negativos por si los admins tienen que hacer pruebas, etc
 
         Account account;
 
@@ -209,7 +209,6 @@ public class AccountService {
         }
 
     }
-
 
     public TransactionThirdPartyUsersDTO moveMoneyFromThirdPartyUser(String hashedKey, TransactionThirdPartyUsersDTO transaction, UserDetails userDetails) {
 

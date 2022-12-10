@@ -33,11 +33,11 @@ public class SecurityConfiguration {
         httpSecurity.httpBasic();
 
         httpSecurity.authorizeHttpRequests()
-
+                // Rutas que los ACCOUNT HOLDER y ADMIN pueden acceder
                 .requestMatchers(HttpMethod.GET, "/account-holder/get-balance/**").hasAnyRole("ACCOUNT-HOLDER", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/account-holder/send-money/**").hasAnyRole("ACCOUNT-HOLDER", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/third-party/move-money/**").hasAnyRole("THIRD-PARTY-USER", "ADMIN")
-
+                // Rutas que solo los ADMIN pueden acceder
                 .requestMatchers(HttpMethod.GET, "/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")

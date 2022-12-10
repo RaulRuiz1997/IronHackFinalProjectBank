@@ -1,4 +1,4 @@
-package com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transfers;
+package com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transactions;
 
 import jakarta.persistence.*;
 

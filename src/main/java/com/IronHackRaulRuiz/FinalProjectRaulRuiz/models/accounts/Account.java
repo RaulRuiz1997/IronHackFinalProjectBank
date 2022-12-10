@@ -44,7 +44,7 @@ public abstract class Account {
     }
 
     public Account(BigDecimal balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, StatusAccount status) {
-        setBalance(balance);
+        setBalance(balance, MINIMUM_BALANCE);
         setPrimaryOwner(primaryOwner);
         setSecondaryOwner(secondaryOwner);
         this.creationDate = LocalDate.now();

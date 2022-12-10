@@ -83,6 +83,8 @@ public class ThirdPartyControllerTest {
 
     }
 
+    // todo: esta solución te la tiene que dar Jose porque usas un AuthenticationPrincipal
+
     // Método para transferir dinero de una cuenta a otra cuenta
     @Test
     void shouldMoveMoney() throws Exception {
@@ -94,9 +96,10 @@ public class ThirdPartyControllerTest {
         String body = objectMapper.writeValueAsString(thirdParty);
 
         MvcResult result = mockMvc.perform(post("/third-party/move-money")
+                        .header("hashedKey", "HK-2")
                         .content(body)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated()).andReturn();
+                .andExpect(status().isOk()).andReturn();
 
         assertTrue(result.getResponse().getContentAsString().contains("TripleH"));
 

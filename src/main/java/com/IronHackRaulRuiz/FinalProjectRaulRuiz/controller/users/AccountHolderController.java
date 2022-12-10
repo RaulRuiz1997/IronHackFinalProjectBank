@@ -3,7 +3,7 @@ package com.IronHackRaulRuiz.FinalProjectRaulRuiz.controller.users;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.dtos.AccountDTO;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.dtos.TransactionDTO;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Account;
-import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transfers.Transaction;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transactions.Transaction;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.accounts.*;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.services.users.AccountHolderService;

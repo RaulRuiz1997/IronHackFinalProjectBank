@@ -39,12 +39,6 @@ public class ThirdPartyController {
     }
     */
     // Método para crear Third Party Users (Solo pueden los Admins)
-    /*@PostMapping("/add")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ThirdParty createThirdPartyUser(@RequestBody @Valid ThirdParty thirdPartyUser, @AuthenticationPrincipal UserDetails userDetails) {
-        return thirdPartyService.createThirdPartyUser(thirdPartyUser, userDetails);
-    }*/
-
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
     public ThirdParty createThirdPartyUser(@RequestBody @Valid ThirdParty thirdPartyUser) {

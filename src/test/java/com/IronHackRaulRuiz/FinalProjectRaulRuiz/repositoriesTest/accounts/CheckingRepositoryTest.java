@@ -21,8 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 public class CheckingRepositoryTest {
 
-    // todo: Los test se hacen asi? Jose te dijo que el método admin.createCheckingAccount() debería tener la lógica en el Service
-
     // todo: si no hay metodos especificos en los repositorios, hacer testing de los CRUD (CREATE, READ, UPDATE Y DELETE)
 
     @Autowired
@@ -30,6 +28,8 @@ public class CheckingRepositoryTest {
 
     @Autowired
     AccountHolderRepository accountHolderRepository;
+
+    Checking checkingAccount;
 
     // Test para crear y guardar un Checking Account en la BBDD
     @BeforeEach
@@ -39,7 +39,7 @@ public class CheckingRepositoryTest {
 
         AccountHolder accountHolderRaul = new AccountHolder("Raul", "12345", LocalDate.of(1997, 12, 19), address, null);
 
-        Checking checkingAccount = new Checking(new BigDecimal("7500.2"), accountHolderRaul, null, StatusAccount.FROZEN, "01101010100H");
+        checkingAccount = new Checking(new BigDecimal("7500.2"), accountHolderRaul, null, StatusAccount.FROZEN, "01101010100H");
 
         accountHolderRepository.save(accountHolderRaul);
 
@@ -63,17 +63,17 @@ public class CheckingRepositoryTest {
 
         Checking checkingAccount;
 
-        if (checkingRepository.findById(1L).isPresent()) {
+        if (checkingRepository.findById(this.checkingAccount.getId()).isPresent()) {
 
-            checkingAccount = checkingRepository.findById(1L).get();
+            checkingAccount = checkingRepository.findById(this.checkingAccount.getId()).get();
 
             assertEquals("Raul", checkingAccount.getPrimaryOwner().getName());
 
+        } else {
+
+            throw new IllegalArgumentException("ID not found");
+
         }
-
-        // LANZAR UN THROW
-
-        // todo: debería haber un else, no? ya que si no esta presente en el if no entra y te dará que ha pasado el test
 
     }
 
@@ -83,15 +83,20 @@ public class CheckingRepositoryTest {
 
         Checking checkingAccount;
 
-        if (checkingRepository.findById(1L).isPresent()) {
+        if (checkingRepository.findById(this.checkingAccount.getId()).isPresent()) {
 
-            checkingAccount = checkingRepository.findById(1L).get();
+            checkingAccount = checkingRepository.findById(this.checkingAccount.getId()).get();
 
-            checkingAccount.setBalance(new BigDecimal("240.0"));
+            checkingAccount.setBalance(BigDecimal.valueOf(240.0), BigDecimal.valueOf(250.0));
 
             checkingRepository.save(checkingAccount);
 
-            assertEquals(200, checkingRepository.findById(checkingAccount.getId()).get().getBalance());
+            // Se debería haber aplicado el penalty fee de 40$
+            assertEquals(new BigDecimal("200.002"), checkingRepository.findById(checkingAccount.getId()).get().getBalance());
+
+        } else {
+
+            throw new IllegalArgumentException("ID not found");
 
         }
 

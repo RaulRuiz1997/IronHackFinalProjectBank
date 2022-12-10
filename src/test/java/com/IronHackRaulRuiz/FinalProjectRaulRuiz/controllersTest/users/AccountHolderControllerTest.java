@@ -3,6 +3,7 @@ package com.IronHackRaulRuiz.FinalProjectRaulRuiz.controllersTest.users;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.accounts.Savings;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.embeddable.Address;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.enums.StatusAccount;
+import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.transactions.Transaction;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.models.users.AccountHolder;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CheckingRepository;
 import com.IronHackRaulRuiz.FinalProjectRaulRuiz.repositories.accounts.CreditCardRepository;
@@ -42,12 +43,6 @@ public class AccountHolderControllerTest {
     @Autowired
     SavingsRepository savingsRepository;
 
-    @Autowired
-    CreditCardRepository creditCardRepository;
-
-    @Autowired
-    CheckingRepository checkingRepository;
-
     private MockMvc mockMvc;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -59,12 +54,14 @@ public class AccountHolderControllerTest {
 
     }
 
+    // todo @AuthenticationPrincipal
+    // GET -> /account-holder/get-balance/{id}
     @Test
     void shouldGetBalance() throws Exception {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
-        AccountHolder accountHolder = new AccountHolder("PETER PRUEBA", passwordEncoder.encode("peter"), LocalDate.of(1997, 12, 19), address, null);
+        AccountHolder accountHolder = new AccountHolder("PETER PRUEBA1", passwordEncoder.encode("peter"), LocalDate.of(1997, 12, 19), address, null);
 
         Savings savingAccount = new Savings(new BigDecimal("21500.00"), accountHolder, null, StatusAccount.ACTIVE, new BigDecimal("999.0"), "c1n90n8", new BigDecimal("0.2"));
 
@@ -74,45 +71,52 @@ public class AccountHolderControllerTest {
 
         String body = objectMapper.writeValueAsString(savingAccount);
 
-        MvcResult result = mockMvc.perform(get("/account-holder/get-balance/1")
+        MvcResult result = mockMvc.perform(get("/account-holder/get-balance/{id}", savingAccount.getId())
                         .content(body)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated()).andReturn();
+                .andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("PETER PRUEBA"));
+        assertTrue(result.getResponse().getContentAsString().contains(savingAccount.getBalance().toString()));
 
     }
 
+    // PATCH -> /account-holder/set-balance
     @Test
     void shouldSetBalance() throws Exception {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
-        AccountHolder accountHolder = new AccountHolder("PETER PRUEBA", passwordEncoder.encode("peter"), LocalDate.of(1997, 12, 19), address, null);
+        AccountHolder accountHolder = new AccountHolder("PETER PRUEBA2", passwordEncoder.encode("peter"), LocalDate.of(1997, 12, 19), address, null);
 
         Savings savingAccount = new Savings(new BigDecimal("21500.00"), accountHolder, null, StatusAccount.ACTIVE, new BigDecimal("999.0"), "c1n90n8", new BigDecimal("0.2"));
 
         userRepository.save(accountHolder);
 
         savingsRepository.save(savingAccount);
+
+        savingAccount.setBalance(BigDecimal.valueOf(1000.0));
 
         String body = objectMapper.writeValueAsString(savingAccount);
 
         MvcResult result = mockMvc.perform(patch("/account-holder/set-balance")
                         .content(body)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated()).andReturn();
+                .andExpect(status().isOk()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("PETER PRUEBA"));
+        // todo esto esta bien comprobado?
+        assertTrue(result.getResponse().getContentAsString().contains("\"balance\":1000.0"));
 
     }
 
+    // todo @AuthenticationPrincipal
+    // todo: mirar esta prueba a ver si esta bien planteada
+    // POST -> localhost:8080/account-holder/send-money/{id}
     @Test
     void shouldSendMoney() throws Exception {
 
         Address address = new Address("C/ Falsa", 123, "BCN", 8100);
 
-        AccountHolder accountHolder = new AccountHolder("PETER PRUEBA", passwordEncoder.encode("peter"), LocalDate.of(1997, 12, 19), address, null);
+        AccountHolder accountHolder = new AccountHolder("PETER PRUEBA3", passwordEncoder.encode("peter"), LocalDate.of(1997, 12, 19), address, null);
 
         Savings savingAccount = new Savings(new BigDecimal("21500.00"), accountHolder, null, StatusAccount.ACTIVE, new BigDecimal("999.0"), "c1n90n8", new BigDecimal("0.2"));
 
@@ -120,14 +124,17 @@ public class AccountHolderControllerTest {
 
         savingsRepository.save(savingAccount);
 
-        String body = objectMapper.writeValueAsString(savingAccount);
 
-        MvcResult result = mockMvc.perform(post("/account-holder/send-money/1")
+        Transaction transaction = new Transaction(1L, savingAccount.getId(), savingAccount.getPrimaryOwner().getName(), savingAccount.getBalance());
+
+        String body = objectMapper.writeValueAsString(transaction);
+
+        MvcResult result = mockMvc.perform(post("/account-holder/send-money/{id}", savingAccount.getId())
                         .content(body)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andReturn();
 
-        assertTrue(result.getResponse().getContentAsString().contains("PETER PRUEBA"));
+        assertTrue(result.getResponse().getContentAsString().contains("\"balance\":" + savingAccount.getBalance()));
 
     }
 
