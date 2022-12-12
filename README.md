@@ -12,6 +12,8 @@
 
 ### Diagrama de Clases
 ![](DiagramaDeClasesBanco.png)
+### Diagrama casos de uso
+![](DiagramaCasosDeUsoBanco.png)
 
 Los administradores pueden hacer y deshacer todo lo que quieran, en la clase security esta establecido.
 Los Third Party Users pueden enviar y recibir dinero indicando las cuentas a donde desean hacer la transferencia.
