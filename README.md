@@ -11,3 +11,15 @@
 
 ### Diagrama de Clases
 ![](DiagramaDeClasesBanco.png)
+
+Los administradores pueden hacer y deshacer todo lo que quieran, en la clase security esta establecido.
+Los Third Party Users pueden enviar y recibir dinero indicando las cuentas a donde desean hacer la transferencia.
+Los Account Holder Users pueden acceder únicamente a sus cuentas, y pueden tener 1 o más cuentas y de distinto tipo
+
+Las Checking Account tienen en cuenta 1 cosa antes de ser creadas, si el propietario es menor de 24 años será una Student Checking Account, sino, una Checking Account.
+Las Student Account no tienen ni mantenimiento ni un mínimo de balance para poder ser creadas. En cambio, las Checking sí.
+
+Las Savings Account deben de tener un mínimo de balance (1000), y un interest Rate, este interest rate va aumentando el valor de la cuenta cada año.
+Las Credit Card Account son parecidas a las Savings pero el valor va aumentando cada mes.
+
+Todas las cuentas tienen un penalty fee, esto quiere decir que si una cuenta cae por debajo del mínimo que debe de tener, se aplicará el penalty fee.
