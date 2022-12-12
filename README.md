@@ -8,6 +8,7 @@
 4. No tengo el método setId() ni setters en las constantes ni en el creationDate porque no tiene lógica incluirlos
 5. Los métodos toString() de las clases hijas, están sobreescritos correctamente, ya que si lo sobreescribes de normal, los atributos que hereda no los tendrá en cuenta.
 6. A la hora de acceder a los balance de los accounts, solo pueden acceder los primary owners y secondary owners a sus respectivas cuentas. He tenido en cuenta que los secondary owners también puedan acceder (Aparte de los Admins)
+7. En el diagrama de clases, los métodos estándares (getId(), setName(), etc.) no se han puesto, pero se han añadido los métodos que se han cambiado su funcionalidad y los nuevos métodos
 
 ### Diagrama de Clases
 ![](DiagramaDeClasesBanco.png)
